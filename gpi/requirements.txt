@@ -12,3 +12,4 @@ sqlparse==0.2.4
 tzdata==2021.5
 wincertstore==0.2
 zipp==3.7.0
+ 
