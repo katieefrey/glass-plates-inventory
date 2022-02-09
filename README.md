@@ -9,5 +9,9 @@ API framework:
 https://www.django-rest-framework.org/
 
 
-pip freeze > requirements.txt
-pip install -r requirements.txt
+* pip freeze > requirements.txt
+* pip install -r requirements.txt
+
+
+noSQL:
+https://www.mongodb.com/compatibility/mongodb-and-django
