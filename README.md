@@ -15,3 +15,5 @@ https://www.django-rest-framework.org/
 
 noSQL:
 https://www.mongodb.com/compatibility/mongodb-and-django
+
+https://www.djongomapper.com/
