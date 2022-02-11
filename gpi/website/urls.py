@@ -4,13 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='mainindex'),
-    path('about', views.about, name='about'),
-    path("resources", views.resources, name="resources"),
-    path("resources/basic-topics", views.basics, name="basics"),
-    path("resources/advanced", views.advanced, name="advanced"),
-    path("resources/linked-data", views.linkeddata, name="linked-data"),
-    path("resources/url-semantic-web", views.semantic, name="url-semantic-web"),
-    path('contact', views.contact, name='contact'),
+    # path('about', views.about, name='about'),
 
     #account related
     path("login", views.login_form, name="login_form"),

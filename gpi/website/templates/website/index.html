@@ -1,0 +1,44 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block nav-home %}active{% endblock %}
+
+{% block title %}
+    Glass Plates Inventory
+{% endblock %}
+
+{% block customcss %}
+{% endblock %}
+
+{% block body %}
+
+
+        <div class="container-fluid">
+            
+                <div class="row contrast">
+                    <div class="logo col-2">
+                        <img class="img-fluid" src="{% static 'website/img/MetaSat_Big.png' %}" alt="MetaSat logo"/>
+                    </div>
+                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12" id="content">
+                        <h1>MetaSat</h1>
+                        <p>Open, collaboratively-developed metadata to support the future of space exploration.</p>
+                    </div>
+                </div>
+            
+        </div>
+
+
+    <br/>
+    <div class="row fixed-bottom mainfooter">
+        <div class="col-12">
+            <div id="footer">
+              <div class="container text-center">
+                <br/>
+                <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" style="color: #ffffff" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+                <br/>&nbsp;
+              </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
