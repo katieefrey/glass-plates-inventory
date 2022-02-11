@@ -1,3 +1,22 @@
+
+/*
+
+
+#704214
+#4e350e
+#ffeacb
+#142b70
+#0e1e4e
+===
+
+#f3c6a5
+#aa8e74
+#fff5eb
+#a5d4f3
+#7494aa
+
+*/
+
 /**** full site ****/
 
 /* all CSS for small screens, but if larger screen then....*/
@@ -40,13 +59,30 @@ a {
     color: #3173AC; /*#337AB7;*/
 }
 
-.bg-dark {
-    background-color: #292f33 !important;
+body {
+    background-color: #fefefe;
+}
+
+.bg-light, .index-top {
+    background-color: #e3d9d0 !important;
+}
+
+.navbar-light .navbar-brand {
+    color:  #0e1e4e;
+}
+
+.navbar-light .navbar-nav .active > .nav-link {
+    color:  #0e1e4e;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #5f6c75; /*#7494aa;*/
 }
 
 .btncolor {
     background-color: #4e687e !important;
 }
+
 
 
 /*** metasat elements pages ***/
@@ -175,3 +211,8 @@ th.basic-header, td.basic-data {
     text-decoration: none;
 }
 
+
+
+.centered {
+    text-align: center;
+}
