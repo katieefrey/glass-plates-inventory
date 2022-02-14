@@ -1,0 +1,202 @@
+/*
+Archive Plate Identifier    RA (deg, min, sec)  DEC (deg, min, sec)
+DASCH       ac1                 05:59:51.748            +75:29:44.39
+DASCH       b853                12:09:05.694            +88:54:58.55
+DASCH       c1031               16:39:31.320            +05:04:42.92
+DASCH       dsb31               18:02:32.230            -29:18:14.26
+DASCH       i52761              18:48:05.680            +45:04:07.71
+DASCH       mb2395              18:55:14.381            -03:47:35.14
+DASCH       mc26097             12:55:29.510            +89:35:25.63
+DASCH       mc493               18:36:07.119            -24:00:07.88
+DASCH       mf2716              20:11:27.243            -75:05:19.49
+*/
+
+nextdasch = {
+    "identifier" : "a6319",
+    "repository": "DASCH",
+    "series" : "a",
+    "number" : "6319",
+    "plate_class" : "M",
+    "expsores" : [
+        {   
+            "number": 0,
+            "time" : 5,
+            "unit" : "minutes",
+            "center" : {
+                "ra" : {
+                "value" : "17:43:33.618",
+                "format" : "hms"  // hms vs decimal
+                },
+                "dec" : {
+                    "value" : "-40:31:43.27",
+                    "format": "daa" // daa vs decimal
+                },
+            },
+            "date" : {
+                "geocentric_date" : "1903-03-26T08:53:11.2",
+                "julian_date" : "2416199.87027",
+            },
+        },
+        {   
+            "number": 1,
+            "time" : 4,
+            "unit" : "minutes",
+            "date" : {
+                "geocentric_date" : "1903-03-26T09:07:38.8",
+                "julian_date" : "2416199.88031",
+            },
+        },
+        {   
+            "number": 2,
+            "time" : 5,
+            "unit" : "minutes",
+            "date" : {
+                "geocentric_date" : "1903-03-26T09:23:06.3",
+                "julian_date" : "2416199.89105",
+            },
+        },
+        {   
+            "number": 3,
+            "time" : 3,
+            "unit" : "minutes",
+            "date" : {
+                "geocentric_date" : "1903-03-26T09:39:03.7",
+                "julian_date" : "2416199.90213",
+            },
+        },
+        {   
+            "number": 4,
+            "time" : 5,
+            "unit" : "minutes",
+            "date" : {
+                "geocentric_date" : "1903-03-26T09:53:01.4",
+                "julian_date" : "2416199.91182",
+            },
+        },{   
+            "number": 5,
+            "time" : 2,
+            "unit" : "minutes",
+            "date" : {
+                "geocentric_date" : "1903-03-26T10:06:29.2",
+                "julian_date" : "2416199.92117",
+            },
+        },
+    ],
+    "telescope" : {
+        "name" : "24-inch Bruce Doublet",
+        "telescope_aperature" : {
+            "value" : 0.6,
+            "unit" : "m"
+        },
+        "telescope_scale" : {
+            "value" : 59.57,
+            "unit" : "arcsec/nm"
+        }
+    }
+}
+
+dasch2 = {
+    "identifier" : "ac1",
+    "repository": "DASCH",
+    "series" : "ac",
+    "number" : "1",
+    "plate_class" : "C",
+    "expsores" : [
+        {   
+            "number": 0,
+            "time" : 144,
+            "unit" : "minutes",
+            "center" : {
+                "ra" : {
+                "value" : "05:59:51.748",
+                "format" : "hms"  // hms vs decimal
+                },
+                "dec" : {
+                    "value" : "+75:29:44.39",
+                    "format": "daa" // daa vs decimal
+                },
+            },
+            "date" : {
+                "geocentric_date" : "1898-05-10T02:51:47.5",
+                "julian_date" : "2414419.61930",
+            },
+        },
+    ],
+    "observatory" : {
+        "name" : "Cambridge",    
+        "location" : {
+            "latitude" : "42.38",
+            "longitude" : "71.1292"
+        },
+    },
+    "telescope" : {
+        "name" : "1.5-inch Cooke Lenses",
+        "telescope_aperature" : {
+            "value" : 0.038,
+            "unit" : "m"
+        },
+        "telescope_scale" : {
+            "value" : 606.4,
+            "unit" : "arcsec/nm"
+        }
+    }
+}
+
+
+
+dasch1 = {
+    "identifier" : "a1731",
+    "repository": "DASCH",
+    "series" : "a",
+    "number" : "1731",
+    "plate_class" : "Unknown",
+    "expsores" : [
+        {   
+            "number": 0,
+            "time" : 87,
+            "unit" : "minutes",
+            "center" : {
+                "ra" : {
+                "value" : "00:07:02.386",
+                "format" : "hms"  // hms vs decimal
+                },
+                "dec" : {
+                    "value" : "-89:27:40.89",
+                    "format": "daa" // daa vs decimal
+                },
+            },
+            "date" : {
+                "geocentric_date" : "1896-04-03T00:59:02.4",
+                "julian_date" : "2413652.54100",
+            },
+        },
+    ],
+    "observatory" : {
+        "name" : "Arequipa",    
+        "location" : {
+            "latitude" : "-16.375",
+            "longitude" : "71.55"
+        },
+    },
+    "telescope" : {
+        "name" : "24-inch Bruce Doublet",
+        "telescope_aperature" : {
+            "value" : 0.6,
+            "unit" : "m"
+        },
+        "telescope_scale" : {
+            "value" : 59.57,
+            "unit" : "arcsec/nm"
+        }
+    }
+}
+
+
+
+
+
+
+
+
+RA is indeed measured in hours, minutes, and seconds.
+Declination is measured in degrees, arcminutes, and arcseconds. 

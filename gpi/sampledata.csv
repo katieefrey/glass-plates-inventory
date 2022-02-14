@@ -1,0 +1,32 @@
+﻿0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24
+Archive,Plate Identifier,plate class,"RA (deg, min, sec)","DEC (deg, min, sec)",RA (deg),DEC (deg),multi exposure,Exposure Time (min),Exposure Time (sec),Date,Obs Epoch,Geocentric Date,Julia Date,Heliocentric Date,Heliocentric Julian Date,Emulsion,Filter,Band,Observatory Name,Telescope,Telescope Lat,Telescope Long,Telescope Aperature (m),Scale (arcsec/mm)
+DASCH,a1731,Unknown,00:07:02.386,-89:27:40.89,,,,87,,,,1896-04-03T00:59:02.4,2413652.541,1896-04-03T00:59:49.9,2413652.542,,,,Arequipa,24-inch Bruce Doublet,-16.375,71.55,0.6,59.57
+DASCH,ac1,C,05:59:51.748,+75:29:44.39,,,,144,,,,1898-05-10T02:51:47.5,2414419.619,1898-05-10T02:47:47.3,2414419.617,,,,Cambridge,1.5-inch Cooke Lenses,42.38,71.1292,0.038,606.4
+DASCH,b853,E,12:09:05.694,+88:54:58.55,,,,124,,,,1886-11-17T02:33:12.2,2410227.606,1886-11-17T02:35:50.2,2410227.608,,,,Cambridge,"8-inch Bache Doublet, Voigtlander, reworked by Clark",42.38,71.1292,0.2,1789.4
+DASCH,c1031,Unknown,16:39:31.320,+05:04:42.92,,,,70,,,,1888-02-01T10:00:18.0,2410668.917,1888-02-01T09:57:21.3,2410668.915,,,,Cambridge,11-inch Draper Refractor,42.38,71.1292,0.3,52.56
+DASCH,dsb31,L,18:02:32.230,-29:18:14.26,,,,120,,,,1970-05-29T23:51:00.0,2440736.494,1970-05-29T23:58:46.6,2440736.499,,,,Bloemfontein,Damons South Blue,-29.0383,-26.4042,0.042,574.5
+DASCH,i52761,L,18:48:05.680,+45:04:07.71,,,,50,,,,1934-05-24T04:52:49.2,2427581.703,1934-05-24T04:54:54.7,2427581.705,,,,Oak Ridge,"8-inch Draper Doublet, Voigtlander Reworked by Clark",42.5033,71.5583,0.2,163.3
+DASCH,mb2395,L,18:55:14.381,-03:47:35.14,,,,60,,,,1929-07-16T03:51:30.3,2425808.661,1929-07-16T03:59:23.1,2425808.666,,,,Cambridge,3-inch Ross Lundin,42.38,71.129,0.1,390
+DASCH,mc26097,P,12:55:29.510,+89:35:25.63,,,,82,,,,1932-09-30T02:38:41.4,2426980.61,1932-09-30T02:39:04.6,2426980.61,,,,Oak Ridge,16-inch Metcalf Doublet (Refigured after 3500),42.5033,71.5583,0.4,97.9
+DASCH,mc493,L,18:36:07.119,-24:00:07.88,,,,1380,,,,1910-07-31T13:59:16.5,2418884.083,1910-07-31T14:06:32.8,2418884.088,,,,Cambridge,16-inch Metcalf Doublet (Refigured after 3500),42.38,71.1292,0.4,97.9
+DASCH,mf2716,L,20:11:27.243,-75:05:19.49,,,,10,,,,1918-10-01T00:53:23.5,2421867.537,1918-10-01T00:53:51.4,2421867.537,,,,Arequipa,10-inch Metcalf Triplet,-16.375,71.55,0.25,167.3
+Hamburg,AG00006,,30:00:00,+31:30:00,,,4,20,,1927-09-01/02,,,,,,Agfa isorapid,,,,AG-Teleskop,,,,
+Hamburg,CA07235z,,17:05:04,-10:07:43,,,,5,,1989-07-29/30,,,,,,Kodak IIIa-F (hyp.-sens.),,,,Calar-Alto-Teleskop,,,,
+Hamburg,DRK0027,,11:51.3,+21:38.0,,,,30,,1936-04-14/15,,,,,,Agfa Astro Z,,,,Doppel-Reflektor,,,,
+Hamburg,GRTr073,,08:36.0,+52:56.0,,,,40,,1930-02-24/25,,,,,,Agfa Astro,,,,Großer Refraktor,,,,
+Hamburg,LA00112,,10:03.8,+12:23.0,,,5,2,,1912-04-30/01,,,,,,Agfa extra rapid,,,,Lippert-Astrograph,,,,
+Hamburg,POb8048,,16:26:20,+26:19.0,,,,248,,1964-04-26/27,,,,,,Kodak IIIa-D,,,,Mount Palomar 200“-telescope,,,,
+Hamburg,RK00120,,05:21.0,+33:12.0,,,2,10,,1937-01-11/12,,,,,,Agfa Astro,,,,Ross-Kamera,,,,
+Hamburg,S00105,,21:25.6,+57:10.6,,,12,8,,1913-12-31/01,,,,,,Lumiere,,,,1m-Spiegelteleskop,,,,
+Hamburg,SS00002,,12:55.0,+28:30,,,,121,,1932-04-23/24,,,,,,Agfa Isochrom,,,,Schmidtsches Spiegelteleskop,,,,
+Hamburg,VOA0149,,22:16.0,+53:18.0,,,,30,,1948-07-13/14,,,,,,Kodak 103a-O,,,,Vatikan-Teleskop,,,,
+WFPDB,AAO390 000566,,,,83.62917,22.01639,,,1800,,1975-01-08T14:08:04Z,,,,,IIaD,N/A,N/A,,AAO390,,,,
+WFPDB,ASI067 013203,,,,85.27500,-2.44167,,,1800,,1985-12-19T00:21:00Z,,,,,103 a-O,GG 13,N/A,,ASI067,,,,
+WFPDB,JEN060 000043,,,,10.68333,41.26917,,,3600,,1963-08-14T00:29:00Z,,,,,AGFA A SPEZ,N/A,N/A,,JEN060,,,,
+WFPDB,KIS105 003577,,,,85.27500,-2.44167,,,7200,,1982-01-21T09:39:34Z,,,,,103a-E,RG645,N/A,,KIS105,,,,
+WFPDB,KIT400 000070,,,,187.70416,12.39056,,,1800,,1973-04-20T00:00:00Z,,,,,IVN,RG-695,I,,KIT400,,,,
+WFPDB,MMO019 008392,,,,279.01250,-23.95833,,,2700,,1991-08-07T02:36:00Z,,,,,103aO+n2,N/A,N/A,,MMO019,,,,
+WFPDB,POT050 000048,,,,10.68333,'41.26917,,,3600,,1953-09-07T00:00:00Z,,,,,RAMAN,N/A,N/A,,POT050,,,,
+WFPDB,ROZ200 001814,,,,187.69167,12.33556,,,1200,,1991-05-06T22:55:00Z,,,,,ZU21,N/A,N/A,,ROZ200,,,,
+WFPDB,SID124 000773,,,,279.01250,-23.95833,,,12,,1974-07-28T11:05:48Z,,,,,IIaO,GG 385,B,,SID124,,,,
+WFPDB,TAU134 008255,,,,83.62917,22.01639,,,600,,1993-02-22T18:25:00Z,,,,,ORWO/KODAK,GG13,B,,TAU134,,,,
