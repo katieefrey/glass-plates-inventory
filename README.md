@@ -17,3 +17,6 @@ noSQL:
 https://www.mongodb.com/compatibility/mongodb-and-django
 
 https://www.djongomapper.com/
+
+connection time out:
+https://docs.atlas.mongodb.com/security/ip-access-list/
