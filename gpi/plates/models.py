@@ -1,6 +1,14 @@
 from django.db import models
 
-# # Create your models here.
+# Create your models here.
+
+class Repository(models.Model):
+    abbr = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, null=True)
+    url = models.CharField(max_length=500, null=True)
+
+    def __str__(self):
+        return f"{self.name}"
 
 # #observatories
 # """

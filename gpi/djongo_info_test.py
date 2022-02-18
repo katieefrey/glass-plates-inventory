@@ -24,6 +24,8 @@ for r in details:
     print(r["identifier"])
 
 
+print(collection_name.distinct("repository"))
+
 
 # # Update one document
 # update_data = collection_name.update_one({'medicine_id':'RR000123456'}, {'$set':{'common_name':'Paracetamol 500'}})

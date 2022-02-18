@@ -1,5 +1,11 @@
 from django.contrib import admin
 
+from .models import Repository
+
+# Register your models here.
+admin.site.register(Repository)
+
+
 # from .models import Observatory, Telescope, Emulsion, Filter, Band, Plate
 
 # # Register your models here.
