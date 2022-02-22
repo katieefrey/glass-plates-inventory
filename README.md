@@ -20,3 +20,13 @@ https://www.djongomapper.com/
 
 connection time out:
 https://docs.atlas.mongodb.com/security/ip-access-list/
+
+
+
+noSQL schema reading:
+
+https://www.mongodb.com/unstructured-data/schemaless
+
+https://www.mongodb.com/developer/article/mongodb-schema-design-best-practices/
+
+https://www.compose.com/articles/mongodb-with-and-without-schemas/
