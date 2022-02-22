@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # Local
     'website.apps.WebsiteConfig',
     'plates.apps.PlatesConfig',
+    'search.apps.SearchConfig',
     'users.apps.UsersConfig',
 ]
 

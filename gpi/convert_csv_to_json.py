@@ -98,7 +98,7 @@ def convertData():
                         "time" : row[8],
                         "unit" : "minutes",
                     },
-                    "multie_exposure" : row[7],
+                    "multi_exposure" : row[7],
                     "emulsion" : row[16],
                     "telescope" : row[20]
                 }
@@ -108,8 +108,6 @@ def convertData():
 
             elif row[0] == "WFPDB" :
                 print("WFPDB")
-
-                print(row[1].split(" "))
 
                 newrecord = {
                     "identifier" : row[1],

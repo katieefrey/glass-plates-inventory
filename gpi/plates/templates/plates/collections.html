@@ -22,21 +22,16 @@
         <div class="col-sm-12 col-md-9 offset-md-3" id="content">
             <div class="mainstuff">
 
-                website content here
-                <br/><br/>
-                List of Repositories Indexed on this site:
-                <br/>
-
-                {% for x in repositories %}
-                    {{x}}<br/>
-                {% endfor %}
-
-
+                <h1>Repositories</h1>
+                
                 {% for x in details %}
-                    {{x.abbr}}, {{x.name}}, {{x.url}}<br/>
+                    <div class="repository">
+                        <h2>{{x.name}}</h2>
+                        <p><a href="{{x.url}}">{{x.url}}</a></p>
+                        <p>Repository Code: <a href="/collections/{{x.abbr}}/">{{x.abbr}}</a></p>
+                        <p>{{x.desc}}</p>
+                    </div>
                 {% endfor %}
-
-
 
             </div>
         </div>

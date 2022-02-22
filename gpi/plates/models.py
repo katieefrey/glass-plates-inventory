@@ -6,6 +6,7 @@ class Repository(models.Model):
     abbr = models.CharField(max_length=500)
     name = models.CharField(max_length=500, null=True)
     url = models.CharField(max_length=500, null=True)
+    desc = models.TextField(null=True)
 
     def __str__(self):
         return f"{self.name}"

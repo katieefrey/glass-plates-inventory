@@ -17,11 +17,31 @@ def index(request):
 
     repodetails = Repository.objects.all()
 
-
-
     context = {
             "repositories": repos,
             "details" : repodetails,
             }
 
-    return render(request, "plates/index.html", context)
+    return render(request, "plates/collections.html", context)
+
+def repo(request, repo_id):
+
+    plates = list(collection_name.find({"repository" : repo_id}))
+
+    context = {
+        "repo" : repo_id,
+        "plates": plates
+    }
+
+    return render(request, "plates/repo.html", context)
+
+def plate(request, repo_id, plate_id):
+
+    plate = list(collection_name.find({"identifier" : plate_id}))
+
+    context = {
+        "repo" : repo_id,
+        "plate": plate[0]
+    }
+
+    return render(request, "plates/plate.html", context)
