@@ -30,3 +30,10 @@ https://www.mongodb.com/unstructured-data/schemaless
 https://www.mongodb.com/developer/article/mongodb-schema-design-best-practices/
 
 https://www.compose.com/articles/mongodb-with-and-without-schemas/
+
+
+https://www.linkedin.com/learning/advanced-nosql-for-data-science/index-data-with-document-databases?autoAdvance=true&autoSkip=true&autoplay=true&resume=false&u=2194065
+
+index attributes usedin find, to speed things up
+
+index_result = db.profiles.create_index([("age", pymongo.ASCENDING)], unique=False)
