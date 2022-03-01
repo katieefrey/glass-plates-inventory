@@ -1,3 +1,4 @@
+data/
 dasch/
 gpi/main/secrets.py
 *.pyc

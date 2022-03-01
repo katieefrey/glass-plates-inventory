@@ -20,11 +20,11 @@ print(" ")
 # Read the documents
 details = collection_name.find({})
 # Print on the terminal
-for r in details:
-    print(r["identifier"])
+# for r in details:
+#     print(r["identifier"])
 
 
-print(collection_name.distinct("repository"))
+# print(collection_name.distinct("repository"))
 
 
 # # Update one document
@@ -33,4 +33,7 @@ print(collection_name.distinct("repository"))
 # # Delete one document
 # delete_data = collection_name.delete_one({'medicine_id':'RR000123456'})
 
+#delete_data = collection_name.delete_many({"repository" : "WFPDB"})
+#delete_data = collection_name.delete_many({"repository" : "Hamburg"})
+#delete_data = collection_name.delete_many({"repository" : "DASCH"})
 

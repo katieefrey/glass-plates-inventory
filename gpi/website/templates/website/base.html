@@ -21,10 +21,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <!-- autocomplete -->
-    <script src="{% static 'website/js/metasat_autocomplete.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'website/css/metasat_autocomplete.css' %}">
-
     <!-- favicon -->
     <link rel="icon" type="image/png" href="{% static 'website/img/flavicon.png' %}">
 
@@ -97,27 +93,6 @@
     {% endblock %}    
 
 
-<!-- autocomplete javascript, move to new file -->
-<script>
-$(document).ready(function(){
-
-    $("#metasat-autocomplete").uatAutocomplete()
-
-    $("#metasat-autocomplete").on("keyup", function(){
-        if (event.keyCode === 13) {
-            var thisword = $("#metasat-autocomplete").val();
-            event.preventDefault();
-            parent.location='../metasat/' + thisword;
-        }
-    });
-
-    $("#autocompletebutton").on("click", function(){
-        var thisword = $("#metasat-autocomplete").val();
-        event.preventDefault();
-        parent.location='../metasat/' + thisword;
-    });
-});
-</script>
 
 </body>
 </html>

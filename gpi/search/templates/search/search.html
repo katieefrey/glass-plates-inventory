@@ -1,0 +1,199 @@
+{% extends "website/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block nav-search %}active{% endblock %}
+
+{% block title %}
+    Glass Plates Inventory
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="topspacing"></div>
+    <div class="row">
+
+        <div class="col-12" id="content">
+            <div class="mainstuff">
+
+                <h1>Search for Plates</h1>
+                {{repo_emulsion}}
+                
+                <form action="/search/result" method="get">
+                    <!-- {% csrf_token %} -->
+                    <div class="row">
+                
+                        <div class="col-4">
+                            <fieldset>
+                                <legend>Plate Information</legend>
+
+                                <div class="mb-3 row">
+                                    <label for="plateid" class="col-sm-5 col-form-label">Plate Identifier</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="plateid">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="archive" class="col-sm-5 col-form-label">Archive / Collection</label>
+                                    <div class="col-sm-7">
+                                        <select class="form-select" id="repos" name="repos" aria-label="Default select example">
+                                            <option value="all" selected>(select a repository)</option>
+                                            {% for x in repositories %}
+                                                <option value="{{x}}">{{x}}</option>
+                                            {% endfor %}           
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="condition" class="col-sm-5 col-form-label">Condition</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="condition">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="emulsion" class="col-sm-5 col-form-label">Emulsion</label>
+                                    <div class="col-sm-7">
+                                        <select id="emulsiondd" name="emulsiondd" class="form-select" aria-label="Default select example">
+                                            <option value="all" selected>(select an emulsion)</option>
+                                            {% for x in emulsion %}
+                                                <option value="{{x}}">{{x}}</option>
+                                            {% endfor %}           
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="plateType" id="direct" value="direct">
+                                    <label class="form-check-label" for="direct">Direct</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="plateType" id="spectral" value="spectral">
+                                    <label class="form-check-label" for="spectral">Spectral</label>
+                                </div>
+
+                            </fieldset>
+
+                        </div>
+                        <div class="col-4">
+
+                            <fieldset>
+                                <legend>Target Information</legend>
+
+                                <div class="mb-3 row">
+                                    <label for="date" class="col-sm-5 col-form-label">Date</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="date">
+                                    </div>
+                                </div>
+
+                                <fieldset>
+                                    <div class="mb-3 row">
+                                        <label for="ra" class="col-sm-5 col-form-label">Right Ascension</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="ra" placeholder="h:m:s or decimal degrees">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="dec" class="col-sm-5 col-form-label">Declination</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="dec" placeholder="d:min:s or decimal degrees">
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                - OR -
+                                <fieldset>
+                                    <div class="mb-3 row">
+                                        <label for="object" class="col-sm-5 col-form-label">Object</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="object">
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                
+
+                            </fieldset>
+                        </div>
+                        <div class="col-4">
+                            <fieldset>
+                                <legend>Additional Information</legend>
+                                <div class="mb-3 row">
+                                    <label for="astronomer" class="col-sm-5 col-form-label">Astronomer</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="astronomer">
+                                    </div>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">Has Notebook</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                    <label class="form-check-label" for="flexCheckChecked">Full Scan Available</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                    <label class="form-check-label" for="flexCheckChecked">Astrometry Fit</label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-1">
+                            <br/>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+$("#repos").change( function() {
+
+    $.ajax({
+      type: "POST",
+      url: "/search/find_emulsions",
+      data: {
+        'repo': this.value,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function (data) {
+        output = JSON.parse(data);
+        $('#emulsiondd').find('option').remove().end()
+
+        var opt = document.createElement('option');
+            opt.value = "all";
+            opt.text = "all";
+            emulsiondd.options.add(opt);
+
+        for (i=0; i < output.length; i++) {
+            createOption(emulsiondd, output[i], output[i])
+        }
+      }
+    });
+
+
+
+});
+
+function createOption(ddl, text, value) {
+  var opt = document.createElement('option');
+  opt.value = value;
+  opt.text = text;
+  ddl.options.add(opt);
+}
+
+</script>
+
+{% endblock %}

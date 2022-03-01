@@ -37,3 +37,10 @@ https://www.linkedin.com/learning/advanced-nosql-for-data-science/index-data-wit
 index attributes usedin find, to speed things up
 
 index_result = db.profiles.create_index([("age", pymongo.ASCENDING)], unique=False)
+
+https://www.linkedin.com/learning/nosql-data-modeling-essential-training/creating-the-json-document?autoAdvance=true&autoSkip=true&autoplay=true&resume=false&u=2194065
+
+
+WFPDB
+output format: json
+output verbosity: 3

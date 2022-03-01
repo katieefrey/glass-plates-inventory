@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+import json
 
 #from plates.models import Repository
 
@@ -15,27 +17,47 @@ def index(request):
 
     repos = collection_name.distinct("repository")
     emulsion = collection_name.distinct("emulsion")
-    # can i limit the emulsion to the selected repository?
-
+   
     context = {
             "repositories": repos,
             "emulsion" : emulsion,
             }
 
-    return render(request, "search/index.html", context)
+    return render(request, "search/search.html", context)
+
+
+
+def find_emulsions(request):
+
+    repo = request.POST["repo"]
+
+    if repo == "all":
+        emulsion = collection_name.distinct("emulsion")
+    else:
+        emulsion = collection_name.find({"repository": repo}).distinct("emulsion")
+    
+    output = json.dumps(emulsion)
+
+    return HttpResponse(output)
 
 
 def result(request):
 
     repo =  request.GET.getlist("repos")
+    emulsion = request.GET.getlist("emulsiondd")
 
-    if repo[0] == "all":
-        plates = list(collection_name.find({}).sort([("repository",pymongo.ASCENDING), ("identifier",pymongo.ASCENDING)]))
-    else:
-        plates = list(collection_name.find({"repository" : repo[0]}).sort([("identifier",pymongo.ASCENDING)]))
+    query = {}
+
+    if repo[0] != "all":
+        query["repository"] = repo[0]
+
+    if emulsion[0] != "all":
+        query["emulsion"] = emulsion[0]
+
+    plates = list(collection_name.find(query).sort([("identifier",pymongo.ASCENDING)]))
         
     context = {
-        "query" : repo[0],
+        "query" : query,
         "results" : plates
     }
 

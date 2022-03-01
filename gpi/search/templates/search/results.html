@@ -15,8 +15,14 @@
     <div class="row">
         
         <div class="newsidebar d-none d-sm-none d-md-block col-lg-3 col-md-3 col-12">
-            <div>Query: {{query}}</div>
+            <div>
+                <strong>Query:</strong>
+                <br/>
 
+                {% for key,val in query.items %}
+                    {{key}}: {{val}}<br/>
+                {% endfor %}
+            </div>
         </div>
 
         <div class="col-sm-12 col-md-9 offset-md-3" id="content">
@@ -25,9 +31,24 @@
                 <h1>Search Results</h1>
 
                 <div>
-                    {% for x in results %}
-                        <a href="/collections/{{x.repository}}/{{x.identifier}}">{{x.identifier}}</a><br/>
-                    {% endfor %}
+                    <table class="table">
+                        <tr>
+                            <th>Plate ID</th>
+                            <th>Archive</th>
+                            <th>Emulsion</th>
+                            <th>RA</th>
+                            <th>Dec</th>
+                        </tr>
+                        {% for x in results %}
+                        <tr>
+                            <td><a href="/collections/{{x.repository}}/{{x.identifier}}">{{x.identifier}}</a><br/></td>
+                            <td>{{x.repository}}</td>
+                            <td>{{x.emulsion}}</td>
+                            <td>{{x.exposures.0.ra}}</td>
+                            <td>{{x.exposures.0.dec}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
                 
             </div>

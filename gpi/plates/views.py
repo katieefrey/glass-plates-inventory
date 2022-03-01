@@ -39,9 +39,45 @@ def plate(request, repo_id, plate_id):
 
     plate = list(collection_name.find({"identifier" : plate_id}))
 
+    quality_flag = 0
+    target_flag = 0
+    target_type_flag = 0
+    time_flag = 0
+
+
+    for x in plate[0]["exposures"]:
+        try:
+            if x["coord_quality"] != None:
+                quality_flag = 1
+        except:
+            pass
+
+        try:
+            if x["target"] != None:
+                target_flag = 1
+                print("==> "+x["target"])
+        except:
+            pass
+
+        try:
+            if x["target_type"] != None:
+                target_type_flag = 1
+        except:
+            pass
+
+        try:
+            if x["time"] != None:
+                time_flag = 1
+        except:
+            pass
+
     context = {
         "repo" : repo_id,
-        "plate": plate[0]
+        "plate": plate[0],
+        "quality_flag" : quality_flag,
+        "target_flag" : target_flag,
+        "target_type_flag" : target_type_flag,
+        "time_flag" : time_flag
     }
 
     return render(request, "plates/plate.html", context)
