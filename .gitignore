@@ -1,6 +1,8 @@
 data/
 dasch/
 gpi/main/secrets.py
+gpi/main/secrets_online.py
+passenger_wsgi.py
 *.pyc
 
 # Byte-compiled / optimized / DLL files
