@@ -31,7 +31,7 @@
                                 <div class="mb-3 row">
                                     <label for="plateid" class="col-sm-5 col-form-label">Plate Identifier</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="plateid">
+                                        <input type="text" class="form-control" name="plateid" id="plateid">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
@@ -93,27 +93,33 @@
                                     <div class="mb-3 row">
                                         <label for="ra" class="col-sm-5 col-form-label">Right Ascension</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="ra" placeholder="h:m:s or decimal degrees">
+                                            <input type="text" class="form-control" id="ra" name="ra" placeholder="h:m:s or decimal degrees">
                                         </div>
                                     </div>
 
                                     <div class="mb-3 row">
                                         <label for="dec" class="col-sm-5 col-form-label">Declination</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="dec" placeholder="d:min:s or decimal degrees">
+                                            <input type="text" class="form-control" id="dec" name="dec" placeholder="d:m:s or decimal degrees">
+                                        </div>
+                                    </div>
+
+                                <div class="centered">- OR -<br/>&nbsp;</div>
+
+                                    <div class="mb-3 row">
+                                        <label for="object" class="col-sm-5 col-form-label">Object</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" name="object" id="object">
                                         </div>
                                     </div>
                                 </fieldset>
 
-                                - OR -
-                                <fieldset>
-                                    <div class="mb-3 row">
-                                        <label for="object" class="col-sm-5 col-form-label">Object</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="object">
-                                        </div>
+                                <div class="mb-3 row">
+                                    <label for="date" class="col-sm-5 col-form-label">Radius (in arcminutes)</label>
+                                    <div class="col-sm-7">
+                                        <input type="number" class="form-control" name="radius" id="radius" min="1" max="20" value="10">
                                     </div>
-                                </fieldset>
+                                </div>
 
                                 
 

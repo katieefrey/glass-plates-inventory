@@ -7,15 +7,52 @@ import json
 import csv
 from datetime import datetime
 
-from wfpdb_data_sample import *
 
+def convertRA(input_value):
+    if input_value and ":" in str(input_value):
+        ra = input_value.split(":")
+        if float(ra[0]) >= 0:
+            output_value = float(ra[0]) + float(ra[1])/60
+            if len(ra) == 3:
+                output_value += float(ra[2])/3600
+        else:
+            output_value = float(ra[0]) - float(ra[1])/60
+            if len(ra) == 3:
+                output_value -= float(ra[2])/3600
+
+        output_value = output_value*15
+    elif input_value:
+        output_value = input_value
+    else:
+        return None
+
+    return round(output_value,4)
+
+
+def convertDEC(input_value):
+    if input_value and ":" in str(input_value):
+        ra = input_value.split(":")
+        if float(ra[0]) >= 0:
+            output_value = float(ra[0]) + float(ra[1])/60
+            if len(ra) == 3:
+                output_value += float(ra[2])/3600
+        else:
+            output_value = float(ra[0]) - float(ra[1])/60
+            if len(ra) == 3:
+                output_value -= float(ra[2])/3600
+    elif input_value:
+        output_value = input_value
+    else:
+        return None
+
+    return round(output_value,4)
 
 def convertData():
 
 
     records = []
     
-    fp = open("wfpdb_data.json", "r")
+    fp = open("wfpdb_data.json", "r", encoding="utf-8")
 
     wfpdb = json.load(fp)
 
@@ -31,46 +68,61 @@ def convertData():
         else:
             target = row[8]
 
+        decira = convertRA(row[3])
+        decidec = convertDEC(row[4])
+
         newrecord = {
             "identifier" : row[2],
             "repository": "WFPDB",
-            "instrument" : (row[1]),            
-            "method" : row[10],
-            "exposures" : [
+            "plate_info" : {
+                "emulsion" : row[12],
+                "type" : row[10],
+                "filter" : row[13],
+                "band" : row [14],
+                "width" : {
+                    "value" : row[15],
+                    "unit" : "cm"
+                },
+                "height" : {
+                    "value" : row[16],
+                    "unit" : "cm",
+                },
+                "observer" : row[17],
+                "notes" : row[18],
+                "quality" : row[19],
+                "availability_note" : availnote,
+                "digitization_note" : row[21]
+            },
+            "obs_info" : {
+                "instrument" : (row[1]),            
+            },
+            "exposure_info" : [
                 {
                     "number": 0,
                     "ra" : row[3],
-                    "ra_format" : "degrees",
+                    "ra_deg" : decira,
                     "dec" : row[4],
-                    "dec_format" : "degrees",
+                    "dec_deg" : decidec,
                     "coord_quality" : row[5],
-                    "date" : row[6],
-                    "date_epoch" : "JD2000",
+                    "date" : {
+                        "value" : row[6],
+                        "unit" : "JD2000",
+                    },
                     "date_quality" : row[7],
-                    "time" : row[11],
-                    "time_unit" : "seconds",
+                    "time" : {
+                        "value" : row[11],
+                        "unit" : "sec",
+                    },
                     "target" : target,
                     "target_type": row[9],
                 }
-            ],
-            "emulsion" : row[12],
-            "filter" : row[13],
-            "band" : row [14],
-            "width" : row[15],
-            "height" : row[16],
-            "width_unit" : "cm",
-            "height_unit" : "cm",
-            "observer" : row[17],
-            "notes" : row[18],
-            "quality" : row[19],
-            "availability_note" : availnote,
-            "digitization_note" : row[21]
+            ]          
         }
 
         records.append(newrecord)
 
 
-    with open('data.json', 'w') as f:
+    with open('data.json', 'w', encoding="utf-8") as f:
         json.dump(records, f, ensure_ascii=False)
 
 if __name__ == "__main__":

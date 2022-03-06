@@ -43,9 +43,9 @@
                         <tr>
                             <td><a href="/collections/{{x.repository}}/{{x.identifier}}">{{x.identifier}}</a><br/></td>
                             <td>{{x.repository}}</td>
-                            <td>{{x.emulsion}}</td>
-                            <td>{{x.exposures.0.ra}}</td>
-                            <td>{{x.exposures.0.dec}}</td>
+                            <td>{{x.plate_info.emulsion}}</td>
+                            <td>{{x.exposure_info.0.ra}}</td>
+                            <td>{{x.exposure_info.0.dec}}</td>
                         </tr>
                         {% endfor %}
                     </table>

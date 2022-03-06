@@ -1,6 +1,7 @@
 {% extends "website/base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% load to_space %}
 
 {% block nav-collections %}active{% endblock %}
 
@@ -31,80 +32,22 @@
                         <th>Repository</th>
                         <td>{{plate.repository}}</td>
                     </tr>
-                    {% if plate.method != None %}
-                    <tr>
-                        <th>Method</th>
-                        <td>{{plate.method}}</td>
-                    </tr>
-                    {% endif %}
-                    {% if plate.plate_class != None %}
-                    <tr>
-                        <th>Plate Class</th>
-                        <td>{{plate.plate_class}}</td>
-                    </tr>
-                    {% endif %}
-                    <tr>
-                        <th>Number of Exposuers</th>
-                        <td>{% if plate.multi != None %}
-                                {{plate.multi}}
-                            {% else %}
-                                {{plate.exposures|length}}
-                            {% endif %}</td>
-                    </tr>
-                    {% if plate.width != None %}
-                    <tr>
-                        <th>Plate Width</th>
-                        <td>{{plate.width}} {{plate.width_unit}}</td>
-                    </tr>
-                    {% endif %}
-                    {% if plate.height != None %}
-                    <tr>
-                        <th>Plate Height</th>
-                        <td>{{plate.height}} {{plate.height_unit}}</td>
-                    </tr>
-                    {% endif %}
-                    {% if plate.emulsion != None %}
-                    <tr>
-                        <th>Emulsion</th>
-                        <td>{{plate.emulsion}}</td>
-                    </tr>
-                    {% endif %}
-                    {% if plate.filter != None %}
-                    <tr>
-                        <th>Filter</th>
-                        <td>{{plate.filter}}</td>
-                    </tr>
-                    {% endif %}
-                    {% if plate.band != None %}
-                    <tr>
-                        <th>Band</th>
-                        <td>{{plate.band}}</td>
-                    </tr>
-                    {% endif %}
-                    {% if plate.availability_note != None %}
-                    <tr>
-                        <th>Availability</th>
-                        <td>{{plate.availability_note}}</td>
-                    </tr>
-                    {% endif %}
-                    {% if plate.observer != None %}
-                    <tr>
-                        <th>Observer</th>
-                        <td>{{plate.observer}}</td>
-                    </tr>
-                    {% endif %}
-                    {% if plate.notes != None %}
-                    <tr>
-                        <th>Notes</th>
-                        <td>{{plate.notes}}</td>
-                    </tr>
-                    {% endif %}
-                    {% if plate.quality != None %}
-                    <tr>
-                        <th>Quality</th>
-                        <td>{{plate.quality}}</td>
-                    </tr>
-                    {% endif %}
+                    {% for key,val in plate.plate_info.items %}
+                        {% if val != None %}
+                            {{val.value}}
+                            {% if val.value %}
+                                <tr>
+                                    <th class="info">{{key|to_space}}</th>
+                                    <td>{{val.value}} {{val.unit}}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <th class="info">{{key|to_space}}</th>
+                                    <td>{{val}}</td>
+                                </tr>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
   
                 </table>
 
@@ -112,35 +55,22 @@
 
                 <table class="table">
 
-                    {% if plate.observatory != None %}
-                    <tr>
-                        <th>Observatory</th>
-                        <td>{{plate.observatory.name}}</td>
-                    </tr>
-                    <tr>
-                        <th>Latitude</th>
-                        <td>{{plate.observatory.latitude}}</td>
-                    </tr>
-                    <tr>
-                        <th>Longitude</th>
-                        <td>{{plate.observatory.longitude}}</td>
-                    </tr>
+                {% for key,val in plate.obs_info.items %}
+                    {% if val != None %}
+                        {% if val.value %}
+                            <tr>
+                                <th class="info">{{key|to_space}}</th>
+                                <td>{{val.value}} {{val.unit}}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <th class="info">{{key|to_space}}</th>
+                                <td>{{val}}</td>
+                            </tr>
+                        {% endif %}
                     {% endif %}
-
-                    {% if plate.telescope != None %}
-                    <tr>
-                        <th>Telescope</th>
-                        <td>{{plate.telescope.name}}</td>
-                    </tr>
-                    <tr>
-                        <th>Aperature</th>
-                        <td>{{plate.telescope.aperature}} {{plate.telescope.aperature_unit}}</td>
-                    </tr>
-                    <tr>
-                        <th>Scale</th>
-                        <td>{{plate.telescope.scale}} {{plate.telescope.scale_unit}}</td>
-                    </tr>
-                    {% endif %}
+         
+                {% endfor %}
 
                 </table>
 
@@ -148,41 +78,27 @@
                 
                 <table class="table">
                     <tr>
-                        <th>Number</th>
-                        <th>RA</th>
-                        <th>DEC</th>
-                        {% if quality_flag == 1 %}
-                            <th>Coordinate Notes</th>
-                        {% endif %}
-                        <th>Date</th>
-                        {% if time_flag == 1 %}
-                            <th>Time</th>
-                        {% endif %}
-                        {% if target_flag == 1 %}
-                            <th>Target</th>
-                        {% endif %}
-                        {% if target_type_flag == 1 %}
-                            <th>Target Type</th>
-                        {% endif %}
+                        {% for key,val in plate.exposure_info.0.items %}
+                            {% if val != None %}
+                                {% if key == "ra" %}
+                                    <th class="cap_info">{{key|to_space}}</th>
+                                {% elif '_deg' not in key %}
+                                    <th class="info">{{key|to_space}}</th>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
                     </tr>
-                    {% for x in plate.exposures %}
+                    {% for x in plate.exposure_info %}
                     <tr>
-                        <td>{{x.number}}</td>
-                        <td>{{x.ra}}</td>
-                        <td>{{x.dec}}</td>
-                        {% if x.coord_quality != None %}
-                            <td>{{x.coord_quality}}</td>
-                        {% endif %}
-                        <td>{{x.date}} ({{x.date_epoch}})</td>
-                        {% if x.time != None %}
-                            <td>{{x.time}} {{x.time_unit}}</td>
-                        {% endif %}
-                        {% if x.target != None %}
-                            <td>{{x.target}}</td>
-                        {% endif %}
-                        {% if x.target_type != None %}
-                            <td>{{x.target_type}}</td>
-                        {% endif %}
+                        {% for key,val in x.items %}
+                            {% if val != None %}
+                                {% if val.value %}
+                                    <td>{{val.value}} {{val.unit}}</td>
+                                {% elif '_deg' not in key %}
+                                    <td>{{val}}</td>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
                     </tr>            
                     {% endfor %}
                 </table>
