@@ -16,11 +16,11 @@ collection_name = dbname["glass"]
 def index(request):
 
     repos = collection_name.distinct("repository")
-    emulsion = collection_name.distinct("plate_info.emulsion")
+    #emulsion = collection_name.distinct("plate_info.emulsion")
    
     context = {
             "repositories": repos,
-            "emulsion" : emulsion,
+            #"emulsion" : emulsion,
             }
 
     return render(request, "search/search.html", context)
@@ -50,6 +50,8 @@ def result(request):
     radius = float((request.GET["radius"]).strip())/60
     ra = request.GET["ra"].strip()
     dec = request.GET["dec"].strip()
+    num_skip = int(request.GET["num_skip"].strip())
+    num_results = int(request.GET["num_results"].strip())
 
     query = {}
 
@@ -60,6 +62,7 @@ def result(request):
             plate = list(collection_name.find({"identifier" : identifier}))
             return redirect('/collections/'+plate[0]["repository"]+'/'+plate[0]["identifier"])
         except:
+            # need to write a plate not found page
             return HttpResponse("plate not found")
 
     if repo[0] != "all":
@@ -84,13 +87,14 @@ def result(request):
         query["exposure_info.ra_deg"] = {"$gt" :  minra, "$lt" : maxra}
         query["exposure_info.dec_deg"] = {"$gt" :  mindec, "$lt" : maxdec}
 
-    plates = list(collection_name.find(query).sort([("identifier",pymongo.ASCENDING)]))
+    plates = (collection_name.find(query).sort([("identifier",pymongo.ASCENDING)])).skip(num_skip).limit(num_results)
 
     context = {
         "query" : query,
         "results" : plates,
     }
 
+    # also need to write a no results returned page
     return render(request, "search/results.html", context)
 
 

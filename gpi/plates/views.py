@@ -26,7 +26,7 @@ def index(request):
 
 def repo(request, repo_id):
 
-    plates = collection_name.find({"repository" : repo_id}).limit(10)#.ToList()
+    plates = collection_name.find({"repository" : repo_id}).limit(10)
 
     context = {
         "repo" : repo_id,
