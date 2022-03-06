@@ -1,6 +1,7 @@
 data/
 dasch/
 gpi/*data*.*
+gpi/singledasch*.*
 gpi/main/secrets.py
 gpi/main/secrets_online.py
 passenger_wsgi.py
