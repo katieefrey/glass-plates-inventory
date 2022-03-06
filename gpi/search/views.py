@@ -1,21 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-import json
-from django.shortcuts import redirect
 from django.urls import reverse
+
 from astroquery.simbad import Simbad
-
-
-#from plates.models import Repository
-
 import pymongo
+import json
+
 from main.secrets import connect_string
 
 my_client = pymongo.MongoClient(connect_string)
 dbname = my_client['plates']
 collection_name = dbname["glass"]
 
-# Create your views here.
 
 def index(request):
 
@@ -72,22 +68,13 @@ def result(request):
     if emulsion[0] != "all":
         query["plate_info.emulsion"] = emulsion[0]
 
-    if ra != "" and dec != "":
-        minra = round(convertRA(ra.replace(" ",":")) - radius*15,4)
-        maxra = round(convertRA(ra.replace(" ",":")) + radius*15,4)
-
-        mindec = round(convertDEC(dec.replace(" ",":")) - radius,4)
-        maxdec = round(convertDEC(dec.replace(" ",":")) + radius,4)
-
-        query["exposure_info.ra_deg"] = {"$gt" :  minra, "$lt" : maxra}
-        query["exposure_info.dec_deg"] = {"$gt" :  mindec, "$lt" : maxdec}
-
+    # if object was queried, this overwrites any ra and dec that might have been queried
     if obj != "":
-        print(obj)
         result_table = Simbad.query_object(obj)
         ra = result_table['RA'][0]
         dec = result_table['DEC'][0]
 
+    if ra != "" and dec != "":
         minra = round(convertRA(ra.replace(" ",":")) - radius*15,4)
         maxra = round(convertRA(ra.replace(" ",":")) + radius*15,4)
 

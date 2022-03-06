@@ -2,12 +2,23 @@
 
 /*
 
-https://coolors.co/704214-aa8e74-fff5eb-a5d4f3-7494aa-0e1e4e
+https://coolors.co/704214-aa8e74-fff5eb-a5d4f3-7494aa-41597c-0e1e4e
+
+https://coolors.co/704214-aa8e74-eadcce-f5e9dd-faefe4-fff5eb-a5d4f3-7494aa-41597c-0e1e4e
+https://coolors.co/704214-aa8e74-fff5eb-f4f1ec-e9eded-d2e5ef-a5d4f3-7494aa-41597c-0e1e4e
 
 */
 
 /* all CSS for small screens, but if larger screen then....*/
 /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
+
+:root {
+    --primarycolor: #7494AA;
+    --mainfont: #41597C;
+    --lightcolor: #FAF3EC;
+    --lightbluebg: #F4F1EC;
+}
+
 @media (min-width: 768px) {  
 
     div.newsidebar {
@@ -40,8 +51,26 @@ div.mainstuff {
     margin: 30px 0;
 }
 
+.h1 {
+    font-weight: bold;
+}
 
-/* reservation page */
+body {
+    background-color: var(--lightcolor);
+}
+
+.main_color {
+    color: var(--mainfont);
+}
+
+a {
+    color: var(--mainfont);   
+}
+
+.navbar, .btn-primary {
+    background-color: var(--primarycolor) !important;
+    border: none !important;
+}
 
 fieldset {
     /*margin-bottom: 2rem;*/
@@ -52,7 +81,8 @@ fieldset {
             box-shadow:  0px 0px 0px 0px #000;
     padding: 1rem;
     border-radius: 10px;
-    background-color: rgba(240, 240, 240, 0.8);
+    /*background-color: rgba(240, 240, 240, 0.8);*/
+    background-color: var(--lightbluebg);
     height:  100%;
 }
 
@@ -140,4 +170,8 @@ th.info, td.info {
 
 th.cap_info, td.cap_info {
   text-transform: uppercase;
+}
+
+tbody tr:nth-child(odd){
+  background-color: var(--lightbluebg);
 }
