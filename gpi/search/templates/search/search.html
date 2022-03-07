@@ -224,6 +224,30 @@ $("#repos").change( function() {
       }
     });
 
+    $.ajax({
+      type: "POST",
+      url: "/search/archive_specific",
+      data: {
+        'repo': this.value,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function (data) {
+        output = JSON.parse(data);
+
+        console.log(output)
+        // $('#emulsiondd').find('option').remove().end()
+
+        // var opt = document.createElement('option');
+        //     opt.value = "all";
+        //     opt.text = "all";
+        //     emulsiondd.options.add(opt);
+
+        // for (i=0; i < output.length; i++) {
+        //     createOption(emulsiondd, output[i], output[i])
+        // }
+      }
+    });
+
 
 
 });

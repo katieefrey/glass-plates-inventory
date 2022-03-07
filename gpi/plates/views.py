@@ -1,24 +1,18 @@
-from django.shortcuts import render
-
-from .models import Repository
-
 import pymongo
+from django.shortcuts import render
 from main.secrets import connect_string
 
 my_client = pymongo.MongoClient(connect_string)
 dbname = my_client['plates']
-collection_name = dbname["glass"]
 
-# Create your views here.
+glass = dbname["glass"]
+repos = dbname["plates_repository"]
 
 def index(request):
 
-    repos = collection_name.distinct("repository")
-
-    repodetails = Repository.objects.all()
+    repodetails = repos.find({})
 
     context = {
-            "repositories": repos,
             "details" : repodetails,
             }
 
@@ -26,7 +20,7 @@ def index(request):
 
 def repo(request, repo_id):
 
-    plates = collection_name.find({"repository" : repo_id}).limit(10)
+    plates = glass.find({"repository" : repo_id}).sort([("identifier",pymongo.ASCENDING)]).collation({"locale": "en_US", "numericOrdering": True}).limit(10)
 
     context = {
         "repo" : repo_id,
@@ -38,7 +32,7 @@ def repo(request, repo_id):
 
 def plate(request, repo_id, plate_id):
 
-    plate = list(collection_name.find({"identifier" : plate_id.replace("%20", " ")}))
+    plate = list(glass.find({"identifier" : plate_id.replace("%20", " ")}))
 
     context = {
         "repo" : repo_id,

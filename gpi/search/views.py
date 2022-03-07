@@ -10,16 +10,17 @@ from main.secrets import connect_string
 
 my_client = pymongo.MongoClient(connect_string)
 dbname = my_client['plates']
-collection_name = dbname["glass"]
+glass = dbname["glass"]
+repos = dbname["plates_repository"]
 
 
 def index(request):
 
-    repos = collection_name.distinct("repository")
-    #emulsion = collection_name.distinct("plate_info.emulsion")
+    archives = repos.distinct("abbr")
+    #emulsion = glass.distinct("plate_info.emulsion")
    
     context = {
-            "repositories": repos,
+            "repositories": archives,
             #"emulsion" : emulsion,
             }
 
@@ -32,14 +33,59 @@ def find_emulsions(request):
     repo = request.POST["repo"]
 
     if repo == "all":
-        emulsion = collection_name.distinct("emulsion")
+        emulsion = glass.distinct("emulsion")
     else:
-        emulsion = collection_name.find({"repository": repo}).distinct("plate_info.emulsion")
+        emulsion = glass.find({"repository": repo}).distinct("plate_info.emulsion")
     
     output = json.dumps(emulsion)
 
     return HttpResponse(output)
 
+
+def archive_specific(request):
+
+    repo = request.POST["repo"]
+
+
+    fieldlist = (list(repos.find({"abbr": repo})))
+    print (fieldlist[0]["fields"])
+
+    for x in fieldlist[0]["fields"]:
+
+        print (x["name"])
+        field = (x["name"].split("."))[1]
+        print(field)
+
+    """
+    DASCH:
+        observatory
+            lat/long
+        telescope
+        plate mentioned in notebook
+        number of exposures
+
+    Hamburg:
+        emulsion
+        telescope
+        number of exposuers
+        plate size
+
+    WFPDB:
+        emulsion
+        filter
+        band
+        observer
+
+    """
+
+    # if repo == "all":
+    #     emulsion = glass.distinct("emulsion")
+    # else:
+    #     emulsion = glass.find({"repository": repo}).distinct("plate_info.emulsion")
+    
+    #output = json.dumps(fieldlist)
+    output = json.dumps({"test" : "test1"})
+    return HttpResponse(output)
 
 def result(request):
 
@@ -57,9 +103,8 @@ def result(request):
 
     # if plate identifer provided go straight there
     if identifier != "":
-        
         try:
-            plate = list(collection_name.find({"identifier" : identifier}))
+            plate = list(glass.find({"identifier" : identifier}))
             return redirect('/collections/'+plate[0]["repository"]+'/'+plate[0]["identifier"])
         except:
             # need to write a plate not found page
@@ -74,20 +119,28 @@ def result(request):
     # if object was queried, this overwrites any ra and dec that might have been queried
     if obj != "":
         result_table = Simbad.query_object(obj)
-        ra = result_table['RA'][0]
-        dec = result_table['DEC'][0]
+        ra = (result_table['RA'][0]).replace(" ",":")
+        dec = (result_table['DEC'][0]).replace(" ",":")
+
+    if ra != "":
+        minra = round(convertRA(ra) - radius*15,4)
+        maxra = round(convertRA(ra) + radius*15,4)
+        query["exposure_info"] = {"$elemMatch": {"ra_deg": {"$gt": minra, "$lt": maxra}}}
+
+    if dec != "":
+        mindec = round(convertDEC(dec) - radius,4)
+        maxdec = round(convertDEC(dec) + radius,4)
+        query["exposure_info"] = {"$elemMatch": {"dec_deg": {"$gt": mindec, "$lt": maxdec}}}
 
     if ra != "" and dec != "":
-        minra = round(convertRA(ra.replace(" ",":")) - radius*15,4)
-        maxra = round(convertRA(ra.replace(" ",":")) + radius*15,4)
-
-        mindec = round(convertDEC(dec.replace(" ",":")) - radius,4)
-        maxdec = round(convertDEC(dec.replace(" ",":")) + radius,4)
-
-        query["exposure_info.ra_deg"] = {"$gt" :  minra, "$lt" : maxra}
-        query["exposure_info.dec_deg"] = {"$gt" :  mindec, "$lt" : maxdec}
-
-    plates = (collection_name.find(query).sort([("identifier",pymongo.ASCENDING)])).skip(num_skip).limit(num_results)
+        del query["exposure_info"]
+        query["$and"] = [
+            {"exposure_info": {"$elemMatch": {"dec_deg": {"$gt": mindec, "$lt": maxdec}}}},
+            {"exposure_info": {"$elemMatch": {"ra_deg": {"$gt": minra, "$lt": maxra}}}}
+        ]
+    
+    # execute the full query
+    plates = (glass.find(query).sort([("identifier",pymongo.ASCENDING)]).collation({"locale": "en_US", "numericOrdering": True})).skip(num_skip).limit(num_results)
 
     context = {
         "query" : query,

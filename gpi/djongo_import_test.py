@@ -11,7 +11,7 @@ dbname = my_client['plates']
 # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection
 collection_name = dbname["glass"]
 
-f = open('data.json', "r", encoding="utf-8") # load up json data
+f = open('dasch_data_output.json', "r", encoding="utf-8") # load up json data
 data = json.load(f)
 f.close()
 
