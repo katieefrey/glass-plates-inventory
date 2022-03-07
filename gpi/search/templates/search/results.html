@@ -18,10 +18,16 @@
             <div>
                 <strong>Query:</strong>
                 <br/>
+                ((query info to be cleaned up later))
+                <br/>
 
                 {% for key,val in query.items %}
-                    {{key}}: {{val}}<br/>
+                    {{key}}: {{val}}<br/><br/>
                 {% endfor %}
+
+                <strong>Total Results:</strong> {{results_count}}<br/><br/>
+                <strong>Showing Results:</strong> {{num_start}} through {{num_end}}
+
             </div>
         </div>
 
@@ -35,7 +41,6 @@
                         <tr>
                             <th>Plate ID</th>
                             <th>Archive</th>
-                            <th>Emulsion</th>
                             <th>RA</th>
                             <th>Dec</th>
                         </tr>
@@ -43,7 +48,6 @@
                         <tr>
                             <td><a href="/collections/{{x.repository}}/{{x.identifier}}">{{x.identifier}}</a><br/></td>
                             <td>{{x.repository}}</td>
-                            <td>{{x.plate_info.emulsion}}</td>
                             <td>{{x.exposure_info.0.ra}}</td>
                             <td>{{x.exposure_info.0.dec}}</td>
                         </tr>

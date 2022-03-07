@@ -78,7 +78,7 @@ def convertData():
                 "emulsion" : row[12],
                 "type" : row[10],
                 "filter" : row[13],
-                "band" : row [14],
+                "band" : row[14],
                 "width" : {
                     "value" : row[15],
                     "unit" : "cm"

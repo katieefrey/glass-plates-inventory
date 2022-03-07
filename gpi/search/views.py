@@ -42,66 +42,66 @@ def find_emulsions(request):
     return HttpResponse(output)
 
 
-def archive_specific(request):
+# def archive_specific(request):
 
-    repo = request.POST["repo"]
+#     repo = request.POST["repo"]
 
 
-    fieldlist = (list(repos.find({"abbr": repo})))
-    print (fieldlist[0]["fields"])
+#     fieldlist = (list(repos.find({"abbr": repo})))
+#     print (fieldlist[0]["fields"])
 
-    formstring = ""
+#     formstring = ""
 
-    for x in fieldlist[0]["fields"]:
+#     for x in fieldlist[0]["fields"]:
 
-        print (x["name"])
-        field = (x["name"].split("."))[1]
-        print(field)
+#         print (x["name"])
+#         field = (x["name"].split("."))[1]
+#         print(field)
 
-        print(x["type"])
+#         print(x["type"])
 
         
 
-        if x["type"] == "text":
-            formstring += """
-            <div class='mb-3 row'>
-                <label for='astronomer' class='col-sm-4 col-form-label cap'>"""+field+"""</label>
-                <div class='col-sm-7'>
-                    <input type='text' class='form-control' name='"""+field+"""' id='"""+field+"""'>
-                </div>
-            </div>
-            """
+#         if x["type"] == "text":
+#             formstring += """
+#             <div class='mb-3 row'>
+#                 <label for='astronomer' class='col-sm-4 col-form-label cap'>"""+field+"""</label>
+#                 <div class='col-sm-7'>
+#                     <input type='text' class='form-control' name='"""+field+"""' id='"""+field+"""'>
+#                 </div>
+#             </div>
+#             """
 
-        if x["type"] == "number":
-            formstring += """
-            <div class='mb-3 row'>
-                <label for='astronomer' class='col-sm-4 col-form-label cap'>"""+field+"""</label>
-                <div class='col-sm-7'>
-                    <input type='number' class='form-control' name='"""+field+"""' id='"""+field+"""'>
-                </div>
-            </div>
-            """
+#         if x["type"] == "number":
+#             formstring += """
+#             <div class='mb-3 row'>
+#                 <label for='astronomer' class='col-sm-4 col-form-label cap'>"""+field+"""</label>
+#                 <div class='col-sm-7'>
+#                     <input type='number' class='form-control' name='"""+field+"""' id='"""+field+"""'>
+#                 </div>
+#             </div>
+#             """
 
-        if x["type"] == "dropdown":
-            emulsion = glass.find({"repository": repo}).distinct("plate_info.emulsion")
+#         if x["type"] == "dropdown":
+#             emulsion = glass.find({"repository": repo}).distinct("plate_info.emulsion")
 
-            formstring += """
-            <div class="mb-3 row">
-                <label for="emulsion" class="col-sm-4 col-form-label">Emulsion</label>
-                <div class="col-sm-7">
-                    <select id="emulsion" name="emulsion" class="form-select" aria-label="Default select example">
-                        <option value="all" selected>(select an emulsion)</option>
-            """
+#             formstring += """
+#             <div class="mb-3 row">
+#                 <label for="emulsion" class="col-sm-4 col-form-label">Emulsion</label>
+#                 <div class="col-sm-7">
+#                     <select id="emulsion" name="emulsion" class="form-select" aria-label="Default select example">
+#                         <option value="all" selected>(select an emulsion)</option>
+#             """
             
-            for y in emulsion:
-                print (y)
-                formstring += "<option value='"+str(y)+"'>"+str(y)+"</option>"
+#             for y in emulsion:
+#                 print (y)
+#                 formstring += "<option value='"+str(y)+"'>"+str(y)+"</option>"
 
-            formstring+= """         
-                    </select>
-                </div>
-            </div>
-            """
+#             formstring+= """         
+#                     </select>
+#                 </div>
+#             </div>
+#             """
 
     """
     DASCH:
@@ -124,44 +124,38 @@ def archive_specific(request):
         observer
 
     """
-
-    # if repo == "all":
-    #     emulsion = glass.distinct("emulsion")
-    # else:
-    #     emulsion = glass.find({"repository": repo}).distinct("plate_info.emulsion")
-    
-    #output = json.dumps(fieldlist)
-    output = json.dumps({"test" : "test1"})
     return HttpResponse(formstring)
 
 def result(request):
 
     repo =  request.GET.getlist("repos")
-    emulsion = request.GET.getlist("emulsion")
+    #emulsion = request.GET.getlist("emulsion")
     identifier = (request.GET["plateid"]).strip()
     obj = (request.GET["object"]).strip()
     radius = float((request.GET["radius"]).strip())/60
     ra = request.GET["ra"].strip()
     dec = request.GET["dec"].strip()
-    num_skip = int(request.GET["num_skip"].strip())
-    num_results = int(request.GET["num_results"].strip())
+    freetext = (request.GET["freetext"]).strip()
+    user = (request.GET["user"]).strip()
+
+    try:
+        num_skip = int(request.GET["num_skip"].strip())
+    except:
+        num_skip = 0
+
+    try:
+        num_results = int(request.GET["num_results"].strip())
+    except:
+        num_results = 50
 
     query = {}
 
     # if plate identifer provided go straight there
     if identifier != "":
-        try:
-            plate = list(glass.find({"identifier" : identifier}))
-            return redirect('/collections/'+plate[0]["repository"]+'/'+plate[0]["identifier"])
-        except:
-            # need to write a plate not found page
-            return HttpResponse("plate not found")
+        query["identifier"] = { "$regex" : identifier, "$options" : "i"}
 
     if repo[0] != "all":
         query["repository"] = repo[0]
-
-    if emulsion[0] != "all":
-        query["plate_info.emulsion"] = emulsion[0]
 
     # if object was queried, this overwrites any ra and dec that might have been queried
     if obj != "":
@@ -185,13 +179,37 @@ def result(request):
             {"exposure_info": {"$elemMatch": {"dec_deg": {"$gt": mindec, "$lt": maxdec}}}},
             {"exposure_info": {"$elemMatch": {"ra_deg": {"$gt": minra, "$lt": maxra}}}}
         ]
+
+    if freetext != "":
+        
+        query["$or"] = [
+        {"plate_info.availability_note" : { "$regex" : freetext, "$options" : "i"}},
+        {"plate_info.digitization_note" : { "$regex" : freetext, "$options" : "i"}},
+        {"plate_info.quality" : { "$regex" : freetext, "$options" : "i"}},
+        {"plate_info.notes" : { "$regex" : freetext, "$options" : "i"}},
+        {"plate_info.observer" : { "$regex" : freetext, "$options" : "i"}},
+        {"obs_info.instrument" : { "$regex" : freetext, "$options" : "i"}},
+        {"obs_info.observatory" : { "$regex" : freetext, "$options" : "i"}},
+        {"exposure_info.target" : { "$regex" : freetext, "$options" : "i"}},
+        {"plate_info.emulsion" : { "$regex" : freetext, "$options" : "i"}}
+        ]
     
+    if user != "":
+        
+        query["$or"] = [
+        {"plate_info.observer" : { "$regex" : user, "$options" : "i"}},
+        ]
+
     # execute the full query
     plates = (glass.find(query).sort([("identifier",pymongo.ASCENDING)]).collation({"locale": "en_US", "numericOrdering": True})).skip(num_skip).limit(num_results)
 
+    results_count = plates.count()
     context = {
         "query" : query,
         "results" : plates,
+        "results_count" : results_count,
+        "num_start": num_skip + 1,
+        "num_end" : num_skip + num_results
     }
 
     # also need to write a no results returned page

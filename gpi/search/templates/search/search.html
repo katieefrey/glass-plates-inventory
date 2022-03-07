@@ -45,12 +45,22 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <!-- <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="plateType" id="direct" value="direct">
+                                    <label class="form-check-label" for="direct">Direct</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="plateType" id="spectral" value="spectral">
+                                    <label class="form-check-label" for="spectral">Spectral</label>
+                                </div> -->
+
                             </fieldset>
 
                             <fieldset class="half">
                                 <legend>Output</legend>
                                 <div class="mb-3 row">
-                                    <label for="date" class="col-sm-4 col-form-label">Number of Results</label>
+                                    <label for="num_results" class="col-sm-5 col-form-label">Number of Results</label>
                                     <div class="col-sm-3">
                                         <input type="number" class="form-control" name="num_results" id="num_results" min="1" max="1000" value="50">
                                     </div>
@@ -60,20 +70,20 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label for="date" class="col-sm-4 col-form-label">Skip</label>
+                                    <label for="num_skip" class="col-sm-5 col-form-label">Skip</label>
                                     <div class="col-sm-3">
-                                        <input type="number" class="form-control" name="num_skip" id="num_skip" min="0" max="1000" value="0">
+                                        <input type="number" class="form-control" name="num_skip" id="num_skip" min="0" value="0">
                                     </div>
                                 </div>
 
-                                <div class="form-check form-check-inline">
+                                <!-- <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="plateType" id="html" checked="checked" value="html">
                                     <label class="form-check-label" for="html">HTML</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="plateType" id="csv" value="csv">
                                     <label class="form-check-label" for="csv">CSV (NYI)</label>
-                                </div>
+                                </div> -->
 
                             </fieldset>
 
@@ -85,12 +95,12 @@
                             <fieldset>
                                 <legend>Target Search</legend>
 
-                                <div class="mb-3 row">
+                                <!-- <div class="mb-3 row">
                                     <label for="date" class="col-sm-4 col-form-label">Date (NYI)</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="date">
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <fieldset class="nested">
                                     <div class="mb-3 row">
@@ -133,18 +143,23 @@
 
                         <div class="col-xl-4 col-lg-6">
                             <fieldset>
-                                <legend>Archive Specific</legend>
-                                <div>Fields generated based on selected archive</div>
-                                <div id="archive">
-                                </div>
-                                <!-- <div class="mb-3 row">
-                                    <label for="astronomer" class="col-sm-4 col-form-label">Astronomer</label>
+                                <legend>Additional Information</legend>
+                                
+                                <div class="mb-3 row">
+                                    <label for="freetext" class="col-sm-4 col-form-label">Free Text Search</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="astronomer">
+                                        <input type="text" class="form-control" name="freetext" id="freetext" placeholder="a word or short phrase">
                                     </div>
                                 </div>
 
-                                <div class="form-check">
+                                <div class="mb-3 row">
+                                    <label for="user" class="col-sm-4 col-form-label">Observer/Astronomer</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="user" id="user" placeholder="">
+                                    </div>
+                                </div>
+
+<!--                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">Has Notebook</label>
                                 </div>
@@ -156,34 +171,22 @@
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                                     <label class="form-check-label" for="flexCheckChecked">Astrometry Fit</label>
                                 </div>
+ -->
+                                
 
-                                <div class="mb-3 row">
-                                    <label for="condition" class="col-sm-4 col-form-label">Condition</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="condition">
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 row">
+<!--                                 <div class="mb-3 row">
                                     <label for="emulsion" class="col-sm-4 col-form-label">Emulsion</label>
                                     <div class="col-sm-7">
-                                        <select id="emulsiondd" name="emulsiondd" class="form-select" aria-label="Default select example">
+                                        <select id="emulsion" name="emulsion" class="form-select" aria-label="Default select example">
                                             <option value="all" selected>(select an emulsion)</option>
                                             {% for x in emulsion %}
                                                 <option value="{{x}}">{{x}}</option>
                                             {% endfor %}           
                                         </select>
                                     </div>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="plateType" id="direct" value="direct">
-                                    <label class="form-check-label" for="direct">Direct</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="plateType" id="spectral" value="spectral">
-                                    <label class="form-check-label" for="spectral">Spectral</label>
                                 </div> -->
+
+                                
 
                             </fieldset>
                         </div>
@@ -227,31 +230,31 @@ $("#repos").change( function() {
     //   }
     // });
 
-    $.ajax({
-      type: "POST",
-      url: "/search/archive_specific",
-      data: {
-        'repo': this.value,
-        csrfmiddlewaretoken: '{{ csrf_token }}'
-      },
-      success: function (data) {
-        output = data;
+    // $.ajax({
+    //   type: "POST",
+    //   url: "/search/archive_specific",
+    //   data: {
+    //     'repo': this.value,
+    //     csrfmiddlewaretoken: '{{ csrf_token }}'
+    //   },
+    //   success: function (data) {
+    //     output = data;
 
-        console.log(output)
+    //     console.log(output)
 
-        $("#archive").html(output)
-        // $('#emulsiondd').find('option').remove().end()
+    //     $("#archive").html(output)
+    //     // $('#emulsiondd').find('option').remove().end()
 
-        // var opt = document.createElement('option');
-        //     opt.value = "all";
-        //     opt.text = "all";
-        //     emulsiondd.options.add(opt);
+    //     // var opt = document.createElement('option');
+    //     //     opt.value = "all";
+    //     //     opt.text = "all";
+    //     //     emulsiondd.options.add(opt);
 
-        // for (i=0; i < output.length; i++) {
-        //     createOption(emulsiondd, output[i], output[i])
-        // }
-      }
-    });
+    //     // for (i=0; i < output.length; i++) {
+    //     //     createOption(emulsiondd, output[i], output[i])
+    //     // }
+    //   }
+    // });
 
 
 
