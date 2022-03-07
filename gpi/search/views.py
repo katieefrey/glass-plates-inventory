@@ -50,11 +50,58 @@ def archive_specific(request):
     fieldlist = (list(repos.find({"abbr": repo})))
     print (fieldlist[0]["fields"])
 
+    formstring = ""
+
     for x in fieldlist[0]["fields"]:
 
         print (x["name"])
         field = (x["name"].split("."))[1]
         print(field)
+
+        print(x["type"])
+
+        
+
+        if x["type"] == "text":
+            formstring += """
+            <div class='mb-3 row'>
+                <label for='astronomer' class='col-sm-4 col-form-label cap'>"""+field+"""</label>
+                <div class='col-sm-7'>
+                    <input type='text' class='form-control' name='"""+field+"""' id='"""+field+"""'>
+                </div>
+            </div>
+            """
+
+        if x["type"] == "number":
+            formstring += """
+            <div class='mb-3 row'>
+                <label for='astronomer' class='col-sm-4 col-form-label cap'>"""+field+"""</label>
+                <div class='col-sm-7'>
+                    <input type='number' class='form-control' name='"""+field+"""' id='"""+field+"""'>
+                </div>
+            </div>
+            """
+
+        if x["type"] == "dropdown":
+            emulsion = glass.find({"repository": repo}).distinct("plate_info.emulsion")
+
+            formstring += """
+            <div class="mb-3 row">
+                <label for="emulsion" class="col-sm-4 col-form-label">Emulsion</label>
+                <div class="col-sm-7">
+                    <select id="emulsion" name="emulsion" class="form-select" aria-label="Default select example">
+                        <option value="all" selected>(select an emulsion)</option>
+            """
+            
+            for y in emulsion:
+                print (y)
+                formstring += "<option value='"+str(y)+"'>"+str(y)+"</option>"
+
+            formstring+= """         
+                    </select>
+                </div>
+            </div>
+            """
 
     """
     DASCH:
@@ -85,12 +132,12 @@ def archive_specific(request):
     
     #output = json.dumps(fieldlist)
     output = json.dumps({"test" : "test1"})
-    return HttpResponse(output)
+    return HttpResponse(formstring)
 
 def result(request):
 
     repo =  request.GET.getlist("repos")
-    emulsion = request.GET.getlist("emulsiondd")
+    emulsion = request.GET.getlist("emulsion")
     identifier = (request.GET["plateid"]).strip()
     obj = (request.GET["object"]).strip()
     radius = float((request.GET["radius"]).strip())/60
