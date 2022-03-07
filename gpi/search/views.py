@@ -18,10 +18,26 @@ def index(request):
 
     archives = repos.distinct("abbr")
     #emulsion = glass.distinct("plate_info.emulsion")
+
+    sortlist = [
+        # {
+        #     "name" : "identifier",
+        #     "field": "identifier"
+        # },
+        {
+            "name" : "Archive",
+            "field": "repository"
+        },
+        {
+            "name" : "Right Ascension",
+            "field": "exposure_info.ra_deg"
+        },
+    ]
    
     context = {
             "repositories": archives,
             #"emulsion" : emulsion,
+            "sortlist" : sortlist
             }
 
     return render(request, "search/search.html", context)
@@ -137,6 +153,7 @@ def result(request):
     dec = request.GET["dec"].strip()
     freetext = (request.GET["freetext"]).strip()
     user = (request.GET["user"]).strip()
+    sortlist = request.GET.getlist("sortlist")
 
     try:
         num_skip = int(request.GET["num_skip"].strip())
@@ -183,25 +200,32 @@ def result(request):
     if freetext != "":
         
         query["$or"] = [
-        {"plate_info.availability_note" : { "$regex" : freetext, "$options" : "i"}},
-        {"plate_info.digitization_note" : { "$regex" : freetext, "$options" : "i"}},
-        {"plate_info.quality" : { "$regex" : freetext, "$options" : "i"}},
-        {"plate_info.notes" : { "$regex" : freetext, "$options" : "i"}},
-        {"plate_info.observer" : { "$regex" : freetext, "$options" : "i"}},
-        {"obs_info.instrument" : { "$regex" : freetext, "$options" : "i"}},
-        {"obs_info.observatory" : { "$regex" : freetext, "$options" : "i"}},
-        {"exposure_info.target" : { "$regex" : freetext, "$options" : "i"}},
-        {"plate_info.emulsion" : { "$regex" : freetext, "$options" : "i"}}
+            {"plate_info.availability_note" : { "$regex" : freetext, "$options" : "i"}},
+            {"plate_info.digitization_note" : { "$regex" : freetext, "$options" : "i"}},
+            {"plate_info.quality" : { "$regex" : freetext, "$options" : "i"}},
+            {"plate_info.notes" : { "$regex" : freetext, "$options" : "i"}},
+            {"plate_info.observer" : { "$regex" : freetext, "$options" : "i"}},
+            {"obs_info.instrument" : { "$regex" : freetext, "$options" : "i"}},
+            {"obs_info.observatory" : { "$regex" : freetext, "$options" : "i"}},
+            {"exposure_info.target" : { "$regex" : freetext, "$options" : "i"}},
+            {"plate_info.emulsion" : { "$regex" : freetext, "$options" : "i"}}
         ]
     
     if user != "":
-        
         query["$or"] = [
-        {"plate_info.observer" : { "$regex" : user, "$options" : "i"}},
+            {"plate_info.observer" : { "$regex" : user, "$options" : "i"}},
         ]
 
     # execute the full query
-    plates = (glass.find(query).sort([("identifier",pymongo.ASCENDING)]).collation({"locale": "en_US", "numericOrdering": True})).skip(num_skip).limit(num_results)
+    plates = (
+        (
+        glass.find(query)
+             .sort([(sortlist[0],pymongo.ASCENDING)])
+             .collation({"locale": "en_US", "numericOrdering": True})
+        )
+        .skip(num_skip)
+        .limit(num_results)
+    )
 
     results_count = plates.count()
     context = {

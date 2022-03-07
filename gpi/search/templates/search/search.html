@@ -76,6 +76,18 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-3 row">
+                                    <label for="sortlist" class="col-sm-4 col-form-label">Sort Field</label>
+                                    <div class="col-sm-7">
+                                        <select id="sortlist" name="sortlist" class="form-select" aria-label="Default select example">
+                                            <option value="identifier" selected>Identifier</option>
+                                            {% for x in sortlist %}
+                                                <option value="{{x.field}}">{{x.name}}</option>
+                                            {% endfor %}           
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <!-- <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="plateType" id="html" checked="checked" value="html">
                                     <label class="form-check-label" for="html">HTML</label>
@@ -158,6 +170,20 @@
                                         <input type="text" class="form-control" name="user" id="user" placeholder="">
                                     </div>
                                 </div>
+
+ <!--                                <div class="mb-3 row">
+                                    <label for="observatory" class="col-sm-4 col-form-label">Observervatory</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="observatory" id="observatory" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="telescope" class="col-sm-4 col-form-label">Telescope</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="telescope" id="telescope" placeholder="">
+                                    </div>
+                                </div> -->
 
 <!--                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
