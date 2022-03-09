@@ -233,7 +233,8 @@ def result(request):
         "results" : plates,
         "results_count" : results_count,
         "num_start": num_skip + 1,
-        "num_end" : num_skip + num_results
+        "num_end" : num_skip + num_results,
+        "num_results"  : num_results,
     }
 
     # also need to write a no results returned page
