@@ -7,48 +7,10 @@ import json
 import csv
 from datetime import datetime
 
-
-def convertRA(input_value):
-    if input_value and ":" in str(input_value):
-        ra = input_value.split(":")
-        if float(ra[0]) >= 0:
-            output_value = float(ra[0]) + float(ra[1])/60
-            if len(ra) == 3:
-                output_value += float(ra[2])/3600
-        else:
-            output_value = float(ra[0]) - float(ra[1])/60
-            if len(ra) == 3:
-                output_value -= float(ra[2])/3600
-
-        output_value = output_value*15
-    elif input_value:
-        output_value = input_value
-    else:
-        return None
-
-    return round(output_value,4)
-
-
-def convertDEC(input_value):
-    if input_value and ":" in str(input_value):
-        ra = input_value.split(":")
-        if float(ra[0]) >= 0:
-            output_value = float(ra[0]) + float(ra[1])/60
-            if len(ra) == 3:
-                output_value += float(ra[2])/3600
-        else:
-            output_value = float(ra[0]) - float(ra[1])/60
-            if len(ra) == 3:
-                output_value -= float(ra[2])/3600
-    elif input_value:
-        output_value = input_value
-    else:
-        return None
-
-    return round(output_value,4)
+from astropy import units as u
+from astropy.coordinates import SkyCoord
 
 def convertData():
-
 
     records = []
     
@@ -60,8 +22,9 @@ def convertData():
 
     for row in dasch["data"]:
 
-        decira = convertRA(row[4])
-        decidec = convertDEC(row[5])
+        coords = SkyCoord(str(row[4]+" "+row[5]), unit=(u.hourangle, u.deg))
+        decira = coords.ra.deg
+        decidec = coords.dec.deg
 
         current = row[0]+str(row[1])
 

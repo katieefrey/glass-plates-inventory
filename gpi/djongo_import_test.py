@@ -11,14 +11,14 @@ dbname = my_client['plates']
 # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection
 collection_name = dbname["glass"]
 
-f = open('dasch_data_output.json', "r", encoding="utf-8") # load up json data
+f = open('data_mm.json', "r", encoding="utf-8") # load up json data
 data = json.load(f)
 f.close()
 
 # Insert the documents
-#collection_name.insert_many(data)
+collection_name.insert_many(data)
 
-for x in data:
-    collection_name.update_one({"identifier": x["identifier"]}, {"$set": x}, upsert=True)
+# for x in data:
+#     collection_name.update_one({"identifier": x["identifier"]}, {"$set": x}, upsert=True)
 
 print("data inserted")

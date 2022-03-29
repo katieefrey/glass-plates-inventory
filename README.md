@@ -44,3 +44,15 @@ https://www.linkedin.com/learning/nosql-data-modeling-essential-training/creatin
 WFPDB
 output format: json
 output verbosity: 3
+
+
+IVOA:
+
+UCDs
+https://ivoa.net/documents/UCD1+/20180527/REC-UCDlist-1.3-20180527.pdf
+
+VOTables
+https://www.ivoa.net/documents/VOTable/20191021/REC-VOTable-1.4-20191021.html
+
+Describing Catalogs w/XML
+http://vizier.u-strasbg.fr/vizier/doc/astrores.htx
