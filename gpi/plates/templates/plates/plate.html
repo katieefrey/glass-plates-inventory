@@ -82,6 +82,8 @@
                             {% if val != None %}
                                 {% if key == "ra" %}
                                     <th class="cap_info">{{key|to_space}}</th>
+                                {% elif val.unit %}
+                                
                                 {% elif '_deg' not in key %}
                                     <th class="info">{{key|to_space}}</th>
                                 {% endif %}
@@ -94,8 +96,10 @@
                             {% if val != None %}
                                 {% if val.value %}
                                     <td>{{val.value}} {{val.unit}}</td>
+                                {% elif val.unit %}
+
                                 {% elif '_deg' not in key %}
-                                    <td>{{val}}</td>
+                                    <td>{{val}} ? {{val.value}}</td>
                                 {% endif %}
                             {% endif %}
                         {% endfor %}

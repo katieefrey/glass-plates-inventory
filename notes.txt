@@ -1,0 +1,8 @@
+a page for each archive to talk about the fields available
+and then a search from there with the extra archive specific fields
+
+
+users, telescopes, location, notes/comments, observers
+
+search field all text items, notes, and observers, and locations, etc
+
