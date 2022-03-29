@@ -56,3 +56,6 @@ https://www.ivoa.net/documents/VOTable/20191021/REC-VOTable-1.4-20191021.html
 
 Describing Catalogs w/XML
 http://vizier.u-strasbg.fr/vizier/doc/astrores.htx
+
+VOTables & Astropy
+https://docs.astropy.org/en/stable/io/votable/index.html
