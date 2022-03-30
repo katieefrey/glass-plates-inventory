@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("result", views.result, name="result"),
-    path("find_emulsions", views.find_emulsions, name="find_emulsions"),
+    #path("find_emulsions", views.find_emulsions, name="find_emulsions"),
     # path("archive_specific", views.archive_specific, name="archive_specific"),
     # path("add_plate", views.add_plate, name="add_plate"),
     # path("no_plate", views.no_plate, name="no_plate"),

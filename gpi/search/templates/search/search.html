@@ -31,29 +31,20 @@
                                 <div class="mb-3 row">
                                     <label for="plateid" class="col-sm-4 col-form-label">Plate Identifier</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="plateid" id="plateid">
+                                        <input type="text" class="form-control" value="{{identifier}}" name="plateid" id="plateid">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="archive" class="col-sm-4 col-form-label">Archive / Collection</label>
                                     <div class="col-sm-7">
                                         <select class="form-select" id="repos" name="repos" aria-label="Default select example">
-                                            <option value="all" selected>(select a repository)</option>
+                                            <option value="all" selected>(select an archive)</option>
                                             {% for x in repositories %}
                                                 <option value="{{x}}">{{x}}</option>
                                             {% endfor %}           
                                         </select>
                                     </div>
                                 </div>
-
-                                <!-- <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="plateType" id="direct" value="direct">
-                                    <label class="form-check-label" for="direct">Direct</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="plateType" id="spectral" value="spectral">
-                                    <label class="form-check-label" for="spectral">Spectral</label>
-                                </div> -->
 
                             </fieldset>
 
@@ -64,7 +55,7 @@
                                     <div class="col-sm-3">
                                         <input type="number" class="form-control" name="num_results" id="num_results" min="1" max="1000" value="50">
                                     </div>
-                                    <div class="col-3 col-form-label">
+                                    <div class="col-5 col-form-label">
                                         (max 1000)
                                     </div>
                                 </div>
@@ -88,15 +79,6 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="plateType" id="html" checked="checked" value="html">
-                                    <label class="form-check-label" for="html">HTML</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="plateType" id="csv" value="csv">
-                                    <label class="form-check-label" for="csv">CSV (NYI)</label>
-                                </div> -->
-
                             </fieldset>
 
                         </div>
@@ -107,26 +89,37 @@
                             <fieldset>
                                 <legend>Target Search</legend>
 
-                                <!-- <div class="mb-3 row">
-                                    <label for="date" class="col-sm-4 col-form-label">Date (NYI)</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="date">
-                                    </div>
-                                </div> -->
-
                                 <fieldset class="nested">
                                     <div class="mb-3 row">
                                         <label for="ra" class="col-sm-4 col-form-label">Right Ascension</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="ra" name="ra" placeholder="h:m:s or decimal degrees">
+                                            <input type="text" class="form-control" id="ra" value="{{ra}}" name="ra" placeholder="h:m:s or decimal degrees">
                                         </div>
+                                        {% if raerror %}
+                                        <div class="offset-sm-4 col-sm-7">
+                                            <div class="alert alert-danger alert-dismissible fade show p-1">{{raerror}}
+                                                <button type="button" class="close p-0 pr-2" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </div>
 
                                     <div class="mb-3 row">
                                         <label for="dec" class="col-sm-4 col-form-label">Declination</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="dec" name="dec" placeholder="d:m:s or decimal degrees">
+                                            <input type="text" class="form-control" id="dec" value="{{dec}}" name="dec" placeholder="d:m:s or decimal degrees">
                                         </div>
+                                        {% if decerror %}
+                                        <div class="offset-sm-4 col-sm-7">
+                                            <div class="alert alert-danger alert-dismissible fade show p-1">{{decerror}}
+                                                <button type="button" class="close p-0 pr-2" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </div>
 
                                 <div class="centered">- OR -<br/>&nbsp;</div>
@@ -134,18 +127,31 @@
                                     <div class="mb-3 row">
                                         <label for="object" class="col-sm-4 col-form-label">Object</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="object" id="object">
+                                            <input type="text" class="form-control" value="{{obj}}" name="object" id="object">
                                         </div>
+                                        {% if objerror %}
+                                        <div class="offset-sm-4 col-sm-7">
+                                            <div class="alert alert-danger alert-dismissible fade show p-1">{{objerror}}
+                                                <button type="button" class="close p-0 pr-2" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </fieldset>
 
                                 <div class="mb-3 row">
                                     <label for="date" class="col-sm-4 col-form-label">Radius</label>
                                     <div class="col-sm-3">
-                                        <input type="number" class="form-control" name="radius" id="radius" min="1" max="20" value="10">
+                                        {% if radius %}
+                                            <input type="number" class="form-control" name="radius" id="radius" min="1" max="30" value="{{radius}}">
+                                        {% else %}
+                                            <input type="number" class="form-control" name="radius" id="radius" min="1" max="30" value="10">
+                                        {% endif %}
                                     </div>
                                     <div class="col-5 col-form-label">
-                                        (in arcminutes)
+                                        (max 30 arcminutes)
                                     </div>
                                 </div>
 
@@ -160,59 +166,16 @@
                                 <div class="mb-3 row">
                                     <label for="freetext" class="col-sm-4 col-form-label">Free Text Search</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="freetext" id="freetext" placeholder="a word or short phrase">
+                                        <input type="text" class="form-control" name="freetext" id="freetext" value="{{freetext}}" placeholder="a word or short phrase">
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
                                     <label for="user" class="col-sm-4 col-form-label">Observer/Astronomer</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="user" id="user" placeholder="">
+                                        <input type="text" class="form-control" name="user" id="user" placeholder="" value="{{observer}}">
                                     </div>
-                                </div>
-
- <!--                                <div class="mb-3 row">
-                                    <label for="observatory" class="col-sm-4 col-form-label">Observervatory</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="observatory" id="observatory" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 row">
-                                    <label for="telescope" class="col-sm-4 col-form-label">Telescope</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="telescope" id="telescope" placeholder="">
-                                    </div>
-                                </div> -->
-
-<!--                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">Has Notebook</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                    <label class="form-check-label" for="flexCheckChecked">Full Scan Available</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                    <label class="form-check-label" for="flexCheckChecked">Astrometry Fit</label>
-                                </div>
- -->
-                                
-
-<!--                                 <div class="mb-3 row">
-                                    <label for="emulsion" class="col-sm-4 col-form-label">Emulsion</label>
-                                    <div class="col-sm-7">
-                                        <select id="emulsion" name="emulsion" class="form-select" aria-label="Default select example">
-                                            <option value="all" selected>(select an emulsion)</option>
-                                            {% for x in emulsion %}
-                                                <option value="{{x}}">{{x}}</option>
-                                            {% endfor %}           
-                                        </select>
-                                    </div>
-                                </div> -->
-
-                                
+                                </div>                               
 
                             </fieldset>
                         </div>
@@ -224,92 +187,11 @@
                         </div>
                     </div>
                 </form>
-                
+
             </div>
         </div>
     </div>
 </div>
 
-<script>
-
-$("#repos").change( function() {
-
-    // $.ajax({
-    //   type: "POST",
-    //   url: "/search/find_emulsions",
-    //   data: {
-    //     'repo': this.value,
-    //     csrfmiddlewaretoken: '{{ csrf_token }}'
-    //   },
-    //   success: function (data) {
-    //     output = JSON.parse(data);
-    //     $('#emulsiondd').find('option').remove().end()
-
-    //     var opt = document.createElement('option');
-    //         opt.value = "all";
-    //         opt.text = "all";
-    //         emulsiondd.options.add(opt);
-
-    //     for (i=0; i < output.length; i++) {
-    //         createOption(emulsiondd, output[i], output[i])
-    //     }
-    //   }
-    // });
-
-    // $.ajax({
-    //   type: "POST",
-    //   url: "/search/archive_specific",
-    //   data: {
-    //     'repo': this.value,
-    //     csrfmiddlewaretoken: '{{ csrf_token }}'
-    //   },
-    //   success: function (data) {
-    //     output = data;
-
-    //     console.log(output)
-
-    //     $("#archive").html(output)
-    //     // $('#emulsiondd').find('option').remove().end()
-
-    //     // var opt = document.createElement('option');
-    //     //     opt.value = "all";
-    //     //     opt.text = "all";
-    //     //     emulsiondd.options.add(opt);
-
-    //     // for (i=0; i < output.length; i++) {
-    //     //     createOption(emulsiondd, output[i], output[i])
-    //     // }
-    //   }
-    // });
-
-
-
-});
-
-function createOption(ddl, text, value) {
-  var opt = document.createElement('option');
-  opt.value = value;
-  opt.text = text;
-  ddl.options.add(opt);
-}
-
-
-  
-  // Remove empty fields from GET forms
-  // Author: Bill Erickson
-  // URL: http://www.billerickson.net/code/hide-empty-fields-get-form/
-  
-    // // Change 'form' to class or ID of your specific form
-    // $("#platesearch").submit(function() {
-    //     $(this).find(":input").filter(function(){ return !this.value; }).attr("disabled", "disabled");
-    //     return true; // ensure form still submits
-    // });
-    
-    // // Un-disable form fields when page loads, in case they click back after submission
-    // $( "#platesearch" ).find( ":input" ).prop( "disabled", false );
-    
-
-
-</script>
 
 {% endblock %}
