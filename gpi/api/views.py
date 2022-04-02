@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.urls import reverse
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
 
-#from astroquery.simbad import Simbad
+from bson.json_util import dumps
+
 from astropy import units as u
 from astropy.coordinates import SkyCoord
 
@@ -13,7 +15,7 @@ from main.secrets import connect_string
 
 my_client = pymongo.MongoClient(connect_string)
 dbname = my_client['plates']
-glass = dbname["glass"]
+glassplates = dbname["glass"]
 repos = dbname["plates_repository"]
 
 
@@ -35,22 +37,10 @@ sort_list = [
     },
 ]
 
-def index(request):
 
-    archives = repos.distinct("abbr")
-   
-    context = {
-            "repositories": archives,
-            "sort_list" : sort_list,
-            "error" : ""
-            }
-
-    return render(request, "search/search.html", context)
-
-
-def result(request):
-
-    archives = repos.distinct("abbr")
+# Create your views here.
+@api_view(['GET'])
+def root(request):
 
     try:
         identifier = (request.GET["identifier"]).strip()
@@ -100,19 +90,6 @@ def result(request):
     except:
         archive = "all"
 
-    context = {
-        "repositories": archives,
-        "sort_list" : sort_list,
-        "archive"  : archive,
-        "identifier"  : identifier,
-        "obj"  : obj,
-        "radius"  : int(radius*60),
-        "ra"  : ra,
-        "dec"  : dec,
-        "text"  : text,
-        "observer"  : observer,
-    }
-
     try:
         num_skip = int(request.GET["num_skip"].strip())
     except:
@@ -134,7 +111,7 @@ def result(request):
     # if plate identifer and ardchive provided, attempt to go straight there
     if identifier != "" and archive != "all":
         try:
-            plate = list(glass.find({"identifier" : identifier}))
+            plate = list(glassplates.find({"identifier" : identifier}))
             return redirect('/collections/'+plate[0]["repository"]+'/'+plate[0]["identifier"])
         except:
             pass
@@ -146,8 +123,7 @@ def result(request):
             ra = coords.ra.deg
             dec = coords.dec.deg
         except:
-            context["objerror"] = "Object not found."
-            return render(request, "search/search.html", context)
+            pass
 
     if ra != "":
         try:
@@ -159,8 +135,7 @@ def result(request):
             query["exposure_info"] = {"$elemMatch": {"ra_deg": {"$gt": minra, "$lt": maxra}}}
 
         except:
-            context["raerror"] = "RA not valid."
-            return render(request, "search/search.html", context)
+            pass
 
     if dec != "":
         try:
@@ -171,8 +146,7 @@ def result(request):
             maxdec = round(float(dec) + radius, 4)
             query["exposure_info"] = {"$elemMatch": {"dec_deg": {"$gt": mindec, "$lt": maxdec}}}
         except:
-            context["decerror"] = "DEC not valid."
-            return render(request, "search/search.html", context)
+            pass
 
     if ra != "" and dec != "":
         del query["exposure_info"]
@@ -203,7 +177,7 @@ def result(request):
     # execute the full query
     plates = (
         (
-        glass.find(query)
+        glassplates.find(query)
              .sort([(sortfield,pymongo.ASCENDING)])
              .collation({"locale": "en_US", "numericOrdering": True})
         )
@@ -211,18 +185,97 @@ def result(request):
         .limit(num_results)
     )
 
+    plates_out = json.loads(dumps(plates))
+
     results_count = plates.count()
 
-    if results_count == 0:
-        context["no_res"] = "No results!"
+    results = {
+        "total_results" : results_count,
+        "num_results" : num_results,
+        "num_skip" : num_skip,
+        "results" : plates_out,
+    }
 
-    context["query"] = query
-    context["results"] = plates
-    context["results_count"] = results_count
-    context["num_start"] = num_skip + 1
-    context["num_end"] = num_skip + num_results
-    context["num_results"] = num_results
+    if plates == None:
+        return Response(results, status=status.HTTP_204_NO_CONTENT)
+            
+    return Response(results, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def archive(request):
+    archives = json.loads(dumps(repos.find({})))
+    return Response(archives)
 
 
-    # also need to write a no results returned page
-    return render(request, "search/results.html", context)
+# @api_view(['GET', 'POST'])
+# def glasspost(request):
+#     if request.method == 'GET':
+#         archives = repos.distinct("abbr")
+#     elif request.method =='POST':
+#         print (request.data)
+#         repos.insert(request.data)
+#         archives = repos.distinct("abbr")
+#         #pass
+#     return Response(archives)
+
+
+# plates in archive
+@api_view(['GET'])
+def PlateArchive(request, archive):
+
+    try:
+        num_skip = int(request.GET["num_skip"].strip())
+    except:
+        num_skip = 0
+
+    try:
+        num_results = int(request.GET["num_results"].strip())
+    except:
+        num_results = 50
+
+    query = {}
+    query["repository"] = { "$regex" : archive, "$options" : "i"}
+
+    plates = (
+            (
+                glassplates.find(query)
+                    .sort([('identifier',pymongo.ASCENDING)])
+                    .collation({"locale": "en_US", "numericOrdering": True})
+                )
+                .skip(num_skip)
+                .limit(num_results)
+            )
+    
+    plates_out = json.loads(dumps(plates))
+    
+    results_count = plates.count()
+
+    results = {
+        "total_results" : results_count,
+        "num_results" : num_results,
+        "num_skip" : num_skip,
+        "results" : plates_out,
+    }
+
+    # if plates == None:
+    #     return Response(results, status=status.HTTP_204_NO_CONTENT)
+            
+    return Response(results, status=status.HTTP_200_OK)
+
+# specific plate
+@api_view(['GET'])
+def GlassPlate(request, archive, identifier):
+
+    query = {}
+    query["repository"] = { "$regex" : archive, "$options" : "i"}
+    query["identifier"] = { "$regex" : '^'+identifier+'$', "$options" : "i"}
+
+    plates = json.loads(dumps(glassplates.find_one(query)))
+    
+    # if plates == None:
+    #     return Response({"results" : plates}, status=status.HTTP_204_NO_CONTENT)
+            
+    return Response({"results" : plates}, status=status.HTTP_200_OK)
+
+
+

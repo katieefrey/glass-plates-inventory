@@ -29,15 +29,15 @@
                                 <legend>Plate Search</legend>
 
                                 <div class="mb-3 row">
-                                    <label for="plateid" class="col-sm-4 col-form-label">Plate Identifier</label>
+                                    <label for="identifier" class="col-sm-4 col-form-label">Plate Identifier</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" value="{{identifier}}" name="plateid" id="plateid">
+                                        <input type="text" class="form-control" value="{{identifier}}" name="identifier" id="identifier">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="archive" class="col-sm-4 col-form-label">Archive / Collection</label>
                                     <div class="col-sm-7">
-                                        <select class="form-select" id="repos" name="repos" aria-label="Default select example">
+                                        <select class="form-select" id="archive" name="archive" aria-label="Default select example">
                                             <option value="all" selected>(select an archive)</option>
                                             {% for x in repositories %}
                                                 <option value="{{x}}">{{x}}</option>
@@ -68,12 +68,12 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label for="sortlist" class="col-sm-4 col-form-label">Sort Field</label>
+                                    <label for="sort_order" class="col-sm-4 col-form-label">Sort Field</label>
                                     <div class="col-sm-7">
-                                        <select id="sortlist" name="sortlist" class="form-select" aria-label="Default select example">
-                                            <option value="identifier" selected>Identifier</option>
-                                            {% for x in sortlist %}
-                                                <option value="{{x.field}}">{{x.name}}</option>
+                                        <select id="sort_order" name="sort_order" class="form-select" aria-label="Default select example">
+                                            <!-- <option value="identifier" selected>Identifier</option> -->
+                                            {% for x in sort_list %}
+                                                <option value="{{x.nickname}}">{{x.name}}</option>
                                             {% endfor %}           
                                         </select>
                                     </div>
@@ -166,14 +166,14 @@
                                 <div class="mb-3 row">
                                     <label for="freetext" class="col-sm-4 col-form-label">Free Text Search</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="freetext" id="freetext" value="{{freetext}}" placeholder="a word or short phrase">
+                                        <input type="text" class="form-control" name="text" id="text" value="{{text}}" placeholder="a word or short phrase">
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label for="user" class="col-sm-4 col-form-label">Observer/Astronomer</label>
+                                    <label for="observer" class="col-sm-4 col-form-label">Observer/Astronomer</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="user" id="user" placeholder="" value="{{observer}}">
+                                        <input type="text" class="form-control" name="observer" id="observer" placeholder="" value="{{observer}}">
                                     </div>
                                 </div>                               
 
