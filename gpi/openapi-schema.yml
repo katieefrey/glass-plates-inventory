@@ -1,0 +1,79 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/:
+    get:
+      operationId: listroots
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+  /api/archive/:
+    get:
+      operationId: listarchives
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+  /api/{archive}/:
+    get:
+      operationId: retrievePlateArchive
+      description: ''
+      parameters:
+      - name: archive
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/{archive}/{identifier}/:
+    get:
+      operationId: retrieveGlassPlate
+      description: ''
+      parameters:
+      - name: archive
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api

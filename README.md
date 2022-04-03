@@ -59,3 +59,15 @@ http://vizier.u-strasbg.fr/vizier/doc/astrores.htx
 
 VOTables & Astropy
 https://docs.astropy.org/en/stable/io/votable/index.html
+
+openAPI schema
+
+python manage.py generateschema --file openapi-schema.yml
+
+
+https://swagger.io/tools/swagger-ui/
+
+coreapi
+
+
+https://medium.com/@vasjaforutube/django-mongodb-django-rest-framework-mongoengine-ee4eb5857b9a

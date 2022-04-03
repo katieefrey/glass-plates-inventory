@@ -38,6 +38,33 @@ sort_list = [
 ]
 
 
+
+
+
+
+
+
+# from rest_framework import views
+# from rest_framework.response import Response
+
+# from .serializers import YourSerializer
+
+# class YourView(views.APIView):
+
+#     def get(self, request):
+#         yourdata= [{"identifier": "a1", "archive": "dasch", "other" : "data"}, {"identifier": "a2", "archive": "wfpdb"}]
+#         results = YourSerializer(yourdata, many=True).data
+#         print("did this work?")
+#         return Response(results)
+
+# # class TrackView(views.APIView):
+
+# #     def get(self, request):
+# #         yourdata= [{"identifier": "a1", "archive": "dasch", "other" : "data"}, {"identifier": "a2", "archive": "wfpdb", "other" : "data"}]
+# #         results = TrackSerializer(yourdata, many=True).data
+# #         print("did this work?")
+# #         return Response(results)
+
 # Create your views here.
 @api_view(['GET'])
 def root(request):
@@ -193,11 +220,13 @@ def root(request):
         "total_results" : results_count,
         "num_results" : num_results,
         "num_skip" : num_skip,
+        "start" : num_skip+1,
+        "end" : num_skip + num_results,
         "results" : plates_out,
     }
 
-    if plates == None:
-        return Response(results, status=status.HTTP_204_NO_CONTENT)
+    # if plates == None:
+    #     return Response(results, status=status.HTTP_204_NO_CONTENT)
             
     return Response(results, status=status.HTTP_200_OK)
 
