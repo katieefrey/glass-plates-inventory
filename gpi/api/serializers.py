@@ -1,4 +1,4 @@
-# from rest_framework import serializers
+from rest_framework import serializers
 
 
 
@@ -23,11 +23,17 @@
 
 
 
-# class YourSerializer(serializers.Serializer):
-#     """Your data serializer, define your fields here."""
-#     identifier = serializers.CharField(max_length=200)
-#     archive = serializers.CharField(max_length=200)
-#     other = serializers.CharField(max_length=200, required=False)
-#     exposuer_info = serializers.ListField(child=ExposureSerializer(), min_length=24, max_length=24)
-#     #exposure_info = serializers.ArrayField()
-#     #exposure_info = serializers.CharField(max_length=200)
+class PlateSerializer(serializers.Serializer):
+    """Your data serializer, define your fields here."""
+    identifier = serializers.CharField(max_length=500)
+    repository = serializers.CharField(max_length=500)
+    #other = serializers.CharField(max_length=200, required=False)
+    #exposuer_info = serializers.ListField(child=ExposureSerializer(), min_length=24, max_length=24)
+    #exposure_info = serializers.ArrayField()
+    #exposure_info = serializers.CharField(max_length=200)
+
+class ArchiveSerializer(serializers.Serializer):
+    abbr = serializers.CharField(max_length=500)
+    name = serializers.CharField(max_length=500)
+    url = serializers.CharField(max_length=500)
+    desc = serializers.CharField(max_length=500)

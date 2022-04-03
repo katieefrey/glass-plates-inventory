@@ -1,7 +1,7 @@
-# # from django.db import models
-# from djongo import models
+from django.db import models
+#from djongo import models
 
-# # Create your models here.
+# Create your models here.
 
 # class ArchiveField(models.Model):
 #     name = models.CharField(null=True, max_length=200)
@@ -10,19 +10,23 @@
 #     class Meta:
 #         abstract = True
 
-# class Repository(models.Model):
-#     abbr = models.CharField(max_length=500)
-#     name = models.CharField(max_length=500, null=True)
-#     url = models.CharField(max_length=500, null=True)
-#     desc = models.TextField(null=True)
-#     fields = models.ArrayField(null=True, model_container=ArchiveField)
+class Repository(models.Model):
+    abbr = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, null=True)
+    url = models.CharField(max_length=500, null=True)
+    desc = models.TextField(null=True)
+    #fields = models.ArrayField(null=True, model_container=ArchiveField)
 
-#     def __str__(self):
-#         return f"{self.name}"
-
-
+    def __str__(self):
+        return f"{self.name}"
 
 
+class PlatesInfo(models.Model):
+    identifier = models.CharField(max_length=500)
+    repository = models.CharField(max_length=500)
+
+    def __str__(self):
+        return f"{self.identifier}"
 
 # # #observatories
 # # """

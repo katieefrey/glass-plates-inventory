@@ -40,9 +40,56 @@ sort_list = [
 
 
 
+# class PurchaseList(generics.ListAPIView):
+#     serializer_class = PurchaseSerializer
+
+#     def get_queryset(self):
+#         """
+#         Optionally restricts the returned purchases to a given user,
+#         by filtering against a `username` query parameter in the URL.
+#         """
+#         queryset = Purchase.objects.all()
+#         username = self.request.query_params.get('username')
+#         if username is not None:
+#             queryset = queryset.filter(purchaser__username=username)
+#         return queryset
+
+from rest_framework import generics
+from .serializers import PlateSerializer, ArchiveSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from plates.models import PlatesInfo, Repository
+
+# class PlateList(generics.ListAPIView):
+#     serializer_class = YourSerializer
+
+#     def get_queryset(self):
+#         """
+#         Optionally restricts the returned purchases to a given user,
+#         by filtering against a `username` query parameter in the URL.
+#         """
+#         yourdata= [{"identifier": "a1", "archive": "dasch", "other" : "data"}, {"identifier": "a2", "archive": "wfpdb"}]
+#         results = YourSerializer(yourdata, many=True).data
+#         identifier = self.request.query_params.get('identifier')
+#         print(identifier)
+#         if identifier is not None:
+#             results = results.filter(identifier=identifier)
+#         return results
 
 
 
+class ArchiveList(generics.ListAPIView):
+    queryset = Repository.objects.all()
+    print(queryset)
+    serializer_class = ArchiveSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['abbr', 'name']
+
+class PlateList(generics.ListAPIView):
+    queryset = PlatesInfo.objects.all()
+    print(queryset)
+    serializer_class = PlateSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['identifier', 'repository']
 
 # from rest_framework import views
 # from rest_framework.response import Response
