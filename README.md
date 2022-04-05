@@ -71,3 +71,7 @@ coreapi
 
 
 https://medium.com/@vasjaforutube/django-mongodb-django-rest-framework-mongoengine-ee4eb5857b9a
+
+
+
+https://docs.mongoengine.org/tutorial.html

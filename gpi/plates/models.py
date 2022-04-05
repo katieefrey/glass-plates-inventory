@@ -21,12 +21,51 @@ class Repository(models.Model):
         return f"{self.name}"
 
 
+# this created a new database on MongoDB
+# just a few sample records currently
 class PlatesInfo(models.Model):
     identifier = models.CharField(max_length=500)
     repository = models.CharField(max_length=500)
 
     def __str__(self):
         return f"{self.identifier}"
+
+
+from mongoengine import Document, EmbeddedDocument, fields
+
+class ExposureInfo(EmbeddedDocument):
+    number = fields.IntField(required=True)
+    duration = fields.IntField(required=True)
+    duration_unit = fields.StringField(required=True)
+
+class GlassPlates(Document):
+    identifier = fields.StringField(required=True)
+    repository = fields.StringField(required=True)
+    exposure_info = fields.ListField(fields.EmbeddedDocumentField(ExposureInfo))
+
+
+# import mongoengine
+# from django.utils.crypto import get_random_string
+# #from .apps import MongoengineAppConfig
+
+# class RandomStringPKDocument(mongoengine.Document):
+#     id = mongoengine.StringField(
+#         primary_key=True,
+#         max_length=12,
+#         default=get_random_string,
+#     )
+
+#     # Meta abstract
+#     meta = {'abstract': True}
+
+
+# class GlassPlates(RandomStringPKDocument):
+#     identifier = models.CharField(required=True, max_length=500)
+#     repository = models.CharField(required=True, max_length=500)
+
+#     # Meta collection name
+#     meta = {'collection': f'{MongoengineAppConfig.name}_account'}
+
 
 # # #observatories
 # # """

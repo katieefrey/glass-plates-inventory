@@ -8,12 +8,19 @@ from . import views
 urlpatterns = [
     path("", views.root, name="root"),
     path("docs/", include_docs_urls(title="Glass Plate Inventory API")),
+
+    # # testing stuff
+    # path('test/', views.PlateList.as_view(), name="PlateList"),
+    # path('atest/', views.ArchiveList.as_view(), name="ArchiveList"),
+    path('gltest/', views.GlassPlatesList.as_view(), name="GlassPlatesList"),
+  
+    path('gtest/', views.GlassPlatesViewSet.as_view({'get': 'list'}), name="GlassPlatesList"),
+
     path('archive/', views.archive, name="archive"),
   
-    # testing stuff
-    path('test/', views.PlateList.as_view(), name="PlateList"),
-    path('atest/', views.ArchiveList.as_view(), name="ArchiveList"),
-  
+
+
+
     path('<str:archive>/', views.PlateArchive, name="PlateArchive"),
     path('<str:archive>/<str:identifier>/', views.GlassPlate, name="GlassPlate"),
 ]
