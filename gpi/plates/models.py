@@ -31,6 +31,8 @@ class PlatesInfo(models.Model):
         return f"{self.identifier}"
 
 
+
+
 from mongoengine import Document, EmbeddedDocument, fields
 
 class ExposureInfo(EmbeddedDocument):
@@ -41,7 +43,10 @@ class ExposureInfo(EmbeddedDocument):
 class GlassPlates(Document):
     identifier = fields.StringField(required=True)
     repository = fields.StringField(required=True)
-    exposure_info = fields.ListField(fields.EmbeddedDocumentField(ExposureInfo))
+    #exposure_info = fields.ListField(fields.EmbeddedDocumentField(ExposureInfo))
+    exposure_info = fields.ListField()
+    obs_info = fields.DictField()
+    plate_info = fields.DictField()
 
 
 # import mongoengine

@@ -115,38 +115,87 @@ sort_list = [
 
 
 
-from rest_framework import generics
+# from rest_framework_mongoengine import generics
+# from .serializers import GlassPlatesSerializer
+# from mongoengine import Document, EmbeddedDocument, fields
+# from django_filters.rest_framework import DjangoFilterBackend
+# from plates.models import GlassPlates
+
+# class GlassPlatesList(generics.ListAPIView):
+#     queryset = GlassPlates.objects.all()
+#     print("did this work?")
+#     print(queryset)
+#     serializer_class = GlassPlatesSerializer
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_fields = ['identifier', 'repository']
+
+
+
+
+
+from rest_framework_mongoengine import generics
 from .serializers import GlassPlatesSerializer
-from django_filters.rest_framework import DjangoFilterBackend
 from plates.models import GlassPlates
 
+# https://stackoverflow.com/a/31649061
 class GlassPlatesList(generics.ListAPIView):
     queryset = GlassPlates.objects.all()
+    print("did this work?")
     print(queryset)
     serializer_class = GlassPlatesSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['identifier', 'repository']
+    my_filter_fields = ['identifier', 'repository', 'plate_info.emulsion']
+
+    def get_kwargs_for_filtering(self):
+        filtering_kwargs = {} 
+        # iterate over the filter fields
+        for field in self.my_filter_fields: 
+            # get the value of a field from request query parameter
+            field_value = self.request.query_params.get(field) 
+            if field_value: 
+                filtering_kwargs[field] = field_value
+        return filtering_kwargs 
+
+    def get_queryset(self):
+        queryset = GlassPlates.objects.all() 
+        # get the fields with values for filtering 
+        filtering_kwargs = self.get_kwargs_for_filtering() 
+        if filtering_kwargs:
+            # filter the queryset based on 'filtering_kwargs'
+            queryset = GlassPlates.objects.filter(**filtering_kwargs)
+
+        return queryset
+
+
+
+
+
+# from rest_framework_mongoengine import generics
+# from .serializers import GlassPlatesSerializer
+# from mongoengine import Document, EmbeddedDocument, fields
+# from django_filters.rest_framework import DjangoFilterBackend
+# from plates.models import GlassPlates
+
+# class GlassPlatesList(generics.ListAPIView):
+#     queryset = GlassPlates.objects.all()
+#     print("did this work?")
+#     print(queryset)
+#     serializer_class = GlassPlatesSerializer
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_fields = ['identifier', 'repository']
+
+
+
 
 
 
 
 from rest_framework_mongoengine import viewsets
-
 from .serializers import GlassPlatesSerializer
 
 from plates.models import GlassPlates
 
 class GlassPlatesViewSet(viewsets.ModelViewSet):
-    '''
-    Contains information about inputs/outputs of a single program
-    that may be used in Universe workflows.
-    '''
-    print("did this happen?")
-    lookup_field = 'id'
     serializer_class = GlassPlatesSerializer
-
-    print(GlassPlates.objects.all())
-
     def get_queryset(self):
         return GlassPlates.objects.all()
 
