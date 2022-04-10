@@ -10,6 +10,7 @@ from astropy.coordinates import SkyCoord
 
 import pymongo
 import json
+import re
 
 from main.secrets import connect_string
 
@@ -38,110 +39,16 @@ sort_list = [
 ]
 
 
-
-
-# class PurchaseList(generics.ListAPIView):
-#     serializer_class = PurchaseSerializer
-
-#     def get_queryset(self):
-#         """
-#         Optionally restricts the returned purchases to a given user,
-#         by filtering against a `username` query parameter in the URL.
-#         """
-#         queryset = Purchase.objects.all()
-#         username = self.request.query_params.get('username')
-#         if username is not None:
-#             queryset = queryset.filter(purchaser__username=username)
-#         return queryset
-
-# from rest_framework import generics
-# from .serializers import PlateSerializer, ArchiveSerializer
-# from django_filters.rest_framework import DjangoFilterBackend
-# from plates.models import PlatesInfo, Repository
-
-# # class PlateList(generics.ListAPIView):
-# #     serializer_class = YourSerializer
-
-# #     def get_queryset(self):
-# #         """
-# #         Optionally restricts the returned purchases to a given user,
-# #         by filtering against a `username` query parameter in the URL.
-# #         """
-# #         yourdata= [{"identifier": "a1", "archive": "dasch", "other" : "data"}, {"identifier": "a2", "archive": "wfpdb"}]
-# #         results = YourSerializer(yourdata, many=True).data
-# #         identifier = self.request.query_params.get('identifier')
-# #         print(identifier)
-# #         if identifier is not None:
-# #             results = results.filter(identifier=identifier)
-# #         return results
-
-
-
-# class ArchiveList(generics.ListAPIView):
-#     queryset = Repository.objects.all()
-#     print(queryset)
-#     serializer_class = ArchiveSerializer
-#     filter_backends = [DjangoFilterBackend]
-#     filterset_fields = ['abbr', 'name']
-
-# class PlateList(generics.ListAPIView):
-#     queryset = PlatesInfo.objects.all()
-#     print(queryset)
-#     serializer_class = PlateSerializer
-#     filter_backends = [DjangoFilterBackend]
-#     filterset_fields = ['identifier', 'repository']
-
-# from rest_framework import views
-# from rest_framework.response import Response
-
-# from .serializers import YourSerializer
-
-# class YourView(views.APIView):
-
-#     def get(self, request):
-#         yourdata= [{"identifier": "a1", "archive": "dasch", "other" : "data"}, {"identifier": "a2", "archive": "wfpdb"}]
-#         results = YourSerializer(yourdata, many=True).data
-#         print("did this work?")
-#         return Response(results)
-
-# # class TrackView(views.APIView):
-
-# #     def get(self, request):
-# #         yourdata= [{"identifier": "a1", "archive": "dasch", "other" : "data"}, {"identifier": "a2", "archive": "wfpdb", "other" : "data"}]
-# #         results = TrackSerializer(yourdata, many=True).data
-# #         print("did this work?")
-# #         return Response(results)
-
-
-
-
-# from rest_framework_mongoengine import generics
-# from .serializers import GlassPlatesSerializer
-# from mongoengine import Document, EmbeddedDocument, fields
-# from django_filters.rest_framework import DjangoFilterBackend
-# from plates.models import GlassPlates
-
-# class GlassPlatesList(generics.ListAPIView):
-#     queryset = GlassPlates.objects.all()
-#     print("did this work?")
-#     print(queryset)
-#     serializer_class = GlassPlatesSerializer
-#     filter_backends = [DjangoFilterBackend]
-#     filterset_fields = ['identifier', 'repository']
-
-
-
-
-
+# gltest
+# https://stackoverflow.com/a/31649061
 from rest_framework_mongoengine import generics
 from .serializers import GlassPlatesSerializer
 from plates.models import GlassPlates
 
-# https://stackoverflow.com/a/31649061
 class GlassPlatesList(generics.ListAPIView):
     queryset = GlassPlates.objects.all()
-    print("did this work?")
-    print(queryset)
+    # print("did this work?")
+    # print(queryset)
     serializer_class = GlassPlatesSerializer
     my_filter_fields = ['identifier', 'repository', 'plate_info.emulsion']
 
@@ -166,32 +73,10 @@ class GlassPlatesList(generics.ListAPIView):
         return queryset
 
 
-
-
-
-# from rest_framework_mongoengine import generics
-# from .serializers import GlassPlatesSerializer
-# from mongoengine import Document, EmbeddedDocument, fields
-# from django_filters.rest_framework import DjangoFilterBackend
-# from plates.models import GlassPlates
-
-# class GlassPlatesList(generics.ListAPIView):
-#     queryset = GlassPlates.objects.all()
-#     print("did this work?")
-#     print(queryset)
-#     serializer_class = GlassPlatesSerializer
-#     filter_backends = [DjangoFilterBackend]
-#     filterset_fields = ['identifier', 'repository']
-
-
-
-
-
-
-
+# gtest
+# https://medium.com/@vasjaforutube/django-mongodb-django-rest-framework-mongoengine-ee4eb5857b9a
 from rest_framework_mongoengine import viewsets
 from .serializers import GlassPlatesSerializer
-
 from plates.models import GlassPlates
 
 class GlassPlatesViewSet(viewsets.ModelViewSet):
@@ -202,11 +87,8 @@ class GlassPlatesViewSet(viewsets.ModelViewSet):
 
 
 
-
-
-
-
-
+# my custom API build
+# this needs documentation
 # Create your views here.
 @api_view(['GET'])
 def root(request):
@@ -363,10 +245,40 @@ def root(request):
         "num_results" : num_results,
         "num_skip" : num_skip,
         "start" : num_skip+1,
-        "end" : num_skip + num_results,
-        "results" : plates_out,
     }
 
+    if num_skip + num_results >= results_count:
+        results["end"] = results_count
+    else:
+        results["end"] = num_skip + num_results
+
+    # find next page
+    if num_skip + num_results <= results_count:
+        if "num_skip" in request.build_absolute_uri():
+            results["next_page"] = re.sub(r"num_skip=\d+", "num_skip="+str(num_skip+num_results), request.build_absolute_uri())
+        elif "?" in request.build_absolute_uri():
+            results["next_page"] = request.build_absolute_uri()+"&num_skip="+str(num_skip + num_results)
+        else:
+            results["next_page"] = request.build_absolute_uri()+"?num_skip="+str(num_skip + num_results)
+
+    # find previous page
+    if num_skip+1 - num_results >= 0:
+        if "num_skip" in request.build_absolute_uri():
+            results["previous_page"] = re.sub(r"num_skip=\d+", "num_skip="+str(num_skip-num_results), request.build_absolute_uri())
+        elif "?" in request.build_absolute_uri():
+            results["previous_page"] = request.build_absolute_uri()+"&num_skip="+str(num_skip-num_results)
+        else:
+            results["previous_page"] = request.build_absolute_uri()+"?num_skip="+str(num_skip-num_results)
+
+    results["results"] = plates_out
+    
+
+    # print(request)
+
+    # print (request.build_absolute_uri())
+    # print("this one?" + request.build_absolute_uri('?'))
+    # print(request.build_absolute_uri('/')[:-1].strip("/"))
+    # print(request.build_absolute_uri('/').strip("/"))
     # if plates == None:
     #     return Response(results, status=status.HTTP_204_NO_CONTENT)
             
@@ -376,19 +288,6 @@ def root(request):
 def archive(request):
     archives = json.loads(dumps(repos.find({})))
     return Response(archives)
-
-
-# @api_view(['GET', 'POST'])
-# def glasspost(request):
-#     if request.method == 'GET':
-#         archives = repos.distinct("abbr")
-#     elif request.method =='POST':
-#         print (request.data)
-#         repos.insert(request.data)
-#         archives = repos.distinct("abbr")
-#         #pass
-#     return Response(archives)
-
 
 # plates in archive
 @api_view(['GET'])
