@@ -10,8 +10,8 @@ urlpatterns = [
     path("docs/", include_docs_urls(title="Glass Plate Inventory API")),
 
     # testing stuff
-    path('gltest/', views.GlassPlatesList.as_view(), name="GlassPlatesList"),
-    path('gtest/', views.GlassPlatesViewSet.as_view({'get': 'list'}), name="GlassPlatesList"),
+    # path('gltest/', views.GlassPlatesList.as_view(), name="GlassPlatesList"),
+    # path('gtest/', views.GlassPlatesViewSet.as_view({'get': 'list'}), name="GlassPlatesList"),
 
     # custom API
     path('archive/', views.archive, name="archive"),

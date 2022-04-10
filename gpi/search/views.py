@@ -9,6 +9,10 @@ from astropy.coordinates import SkyCoord
 import pymongo
 import json
 
+#from api.views import GlassPlatesList
+
+
+
 from main.secrets import connect_string
 
 my_client = pymongo.MongoClient(connect_string)
@@ -36,6 +40,8 @@ sort_list = [
 ]
 
 def index(request):
+    #print(GlassPlatesList.get_filters()) <-- from API views
+    # use above to make the api documentation someday...
 
     archives = repos.distinct("abbr")
    

@@ -33,6 +33,12 @@ class ExposureInfo(EmbeddedDocument):
     duration = fields.IntField(required=True)
     duration_unit = fields.StringField(required=True)
 
+class PlateInfo(EmbeddedDocument):
+    #number = fields.IntField(required=True)
+    #duration = fields.IntField(required=True)
+    emulsion = fields.StringField(required=True)
+
+
 class GlassPlates(Document):
     identifier = fields.StringField(required=True)
     repository = fields.StringField(required=True)
@@ -40,3 +46,4 @@ class GlassPlates(Document):
     exposure_info = fields.ListField()
     obs_info = fields.DictField()
     plate_info = fields.DictField()
+    #plate_info = fields.DictField(fields.EmbeddedDocumentField(PlateInfo))
