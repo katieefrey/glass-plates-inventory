@@ -29,8 +29,6 @@
 
                 <strong>Total Results:</strong> {{results_count}}<br/><br/>
                 <strong>Showing Results:</strong> {{num_start}} through {{num_end}}
-                <br/><br/>
-
             </div>
         </div>
 
@@ -38,8 +36,12 @@
             <div class="mainstuff">
 
                 <h1>Search Results</h1>
-
                 <div>
+
+                    {% if no_res %}
+                        {{no_res}}
+                    {% else %}
+
                     <table class="table">
                         <tr>
                             <th>Plate ID</th>
@@ -56,28 +58,79 @@
                         </tr>
                         {% endfor %}
                     </table>
+
+                    {% endif %}
+
                 </div>
 
+                <br/>
+                &nbsp;
 
-                <form>
-                    <div class="row">
-                        <div class="mb-3 row">
-                            <label for="num_results" class="col-sm-4 col-form-label">Per Page</label>
-                            <div class="col-6">
-                                <input type="number" class="form-control" name="num_results" id="num_results" min="1" max="1000" value="50">
-                            </div>
+                <div class="row">
+                    <div class="col-3">
+                    </div>
+                    <div class="col-2">
+                        <div id="prevbuttondiv">
+                            <button type="button" id="previouspage" class="btn btn-primary">Previous</button>
                         </div>
-
-                        <button>Previous {{num_results}}</button> &nbsp;&nbsp;&nbsp;<button>Next {{num_results}}</button>
-
                     </div>
 
-                </form>
+                    <div class="col-2">
+                        Per Page : {{num_results}}
+                    </div>
+
+                    <div class="col-3">
+                        <div id="nextbuttondiv">
+                            <button type="button" id="nextpage" class="btn btn-primary">Next</button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                    </div>
+
+                </div>
+
+                <br/>
+                &nbsp;
                 
             </div>
         </div>
     </div>
 </div>
+
+<script>
+
+    $( document ).ready(function() {
+        
+        // hide previous button if we're at the start
+        if ({{num_skip}}+1 <= 1) {
+            $("#prevbuttondiv").hide();
+        }
+
+        // hide next button if we are at the end
+        if ({{num_skip}} + {{num_results}} >= {{results_count}}){
+            $("#nextbuttondiv").hide();
+        }
+
+        // execute previous button
+        $("#previouspage").click(function(){
+            var skipamount = parseInt({{num_skip}}) - parseInt({{num_results}});
+            if (skipamount < 0) {
+                skipamount = 0;
+            }
+            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)    
+            window.location.href = url;
+        });
+
+        // execute next button
+        $("#nextpage").click(function(){
+            var skipamount = parseInt({{num_results}}) + parseInt({{num_skip}});
+            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)
+            window.location.href = url;
+        });
+
+    });
+
+</script>
 
 
 {% endblock %}

@@ -38,151 +38,6 @@ sort_list = [
     },
 ]
 
-
-# gltest
-# https://stackoverflow.com/a/31649061
-
-# might want to look at this more
-# https://stackoverflow.com/questions/41424053/how-to-use-django-rest-filtering-with-mongoengine-for-list-filtering
-
-# from rest_framework_mongoengine import generics
-# from .serializers import GlassPlatesSerializer
-# from plates.models import GlassPlates
-# from rest_framework.response import Response
-# from rest_framework import status 
-
-# # my_filter_fields = ['identifier', 'repository', 'emulsion', 'radius', 'plate_info__notes','ra', 'dec', 'obj']
-
-# class GlassPlatesList(generics.ListAPIView):
-
-#     # do i need this line?
-#     #queryset = GlassPlates.objects.all()
-
-#     serializer_class = GlassPlatesSerializer
-#     #my_filter_fields = ['identifier', 'repository', 'emulsion', 'test', 'radius', 'plate_info__notes','ra', 'dec', 'obj']
-    
-#     def get_filters():
-#         my_filter_fields = ['identifier', 'repository', 'emulsion', 'radius', 'plate_info__notes','ra', 'dec', 'obj']
-#         return my_filter_fields
-
-#     def get_kwargs_for_filtering(self):
-#         radius = 10/60
-
-#         filtering_kwargs = {} 
-#         # iterate over the filter fields
-#         for field in GlassPlatesList.get_filters():#my_filter_fields: 
-#             # get the value of a field from request query parameter
-
-#             if field == "radius":
-#                 field_value = self.request.query_params.get(field)
-#                 if field_value:
-#                     try:
-#                         radius = float(field_value)/60
-#                     except:
-#                         pass
-
-#             elif field == "ra":
-#                 ra = self.request.query_params.get(field)
-#                 if ra:
-#                     try:
-#                         if ":" in str(ra):
-#                             coords = SkyCoord(ra+" 0", unit=(u.hourangle, u.deg))
-#                             ra = coords.ra.deg
-#                         minra = round(float(ra) - radius*15, 4)
-#                         maxra = round(float(ra) + radius*15, 4)
-#                         filtering_kwargs["exposure_info"] = {"$elemMatch": {"ra_deg": {"$gt": minra, "$lt": maxra}}}
-#                     except:
-#                         filtering_kwargs["exposure_info"] = {"$elemMatch": {"ra_deg": ra}}
-
-#             elif field == "dec":
-#                 dec = self.request.query_params.get(field)
-#                 if dec:
-#                     try:
-#                         if ":" in str(dec):
-#                             coords = SkyCoord("0 "+dec, unit=(u.hourangle, u.deg))
-#                             dec = coords.dec.deg
-#                         mindec = round(float(dec) - radius, 4)
-#                         maxdec = round(float(dec) + radius, 4)
-#                         filtering_kwargs["exposure_info"] = {"$elemMatch": {"dec_deg": {"$gt": mindec, "$lt": maxdec}}}
-#                     except:
-#                         filtering_kwargs["exposure_info"] = {"$elemMatch": {"dec_deg": dec}}
-
-#             elif field == "obj":
-#                 obj = self.request.query_params.get(field)
-#                 if obj:
-#                     coords = SkyCoord.from_name(obj)
-#                     ra = coords.ra.deg
-#                     dec = coords.dec.deg
-
-#                     minra = round(float(ra) - radius*15, 4)
-#                     maxra = round(float(ra) + radius*15, 4)
-#                     filtering_kwargs["exposure_info"] = {"$elemMatch": {"ra_deg": {"$gt": minra, "$lt": maxra}}}
-
-#                     mindec = round(float(dec) - radius, 4)
-#                     maxdec = round(float(dec) + radius, 4)
-#                     filtering_kwargs["exposure_info"] = {"$elemMatch": {"dec_deg": {"$gt": mindec, "$lt": maxdec}}}
-
-#             # elif field == "text":
-#             #     text = self.request.query_params.get(field)
-#             #     from mongoengine.queryset.visitor import Q
-
-#             #     if text:
-
-#             #         filtering_kwargs["$or"] = [
-#             #             {"plate_info.availability_note" : { "$regex" : text, "$options" : "i"}},
-#             #             {"plate_info.digitization_note" : { "$regex" : text, "$options" : "i"}},
-#             #             {"plate_info.quality" : { "$regex" : text, "$options" : "i"}},
-#             #             {"plate_info.notes" : { "$regex" : text, "$options" : "i"}},
-#             #             {"plate_info.observer" : { "$regex" : text, "$options" : "i"}},
-#             #             {"obs_info.instrument" : { "$regex" : text, "$options" : "i"}},
-#             #             {"obs_info.observatory" : { "$regex" : text, "$options" : "i"}},
-#             #             {"exposure_info.target" : { "$regex" : text, "$options" : "i"}},
-#             #             {"plate_info.emulsion" : { "$regex" : text, "$options" : "i"}}
-#             #         ]
-
-#             elif field == "emulsion":
-#                 field_value = self.request.query_params.get(field)
-#                 if field_value: 
-#                     filtering_kwargs["plate_info__"+field] = { "$regex" : field_value, "$options" : "i"}
-
-#             else:
-#                 field_value = self.request.query_params.get(field) 
-#                 if field_value: 
-#                     filtering_kwargs[field] = { "$regex" : field_value, "$options" : "i"}
-
-#         print (filtering_kwargs)
-
-#         return filtering_kwargs 
-
-#     def get_queryset(self):
-
-#         queryset = GlassPlates.objects.all() 
-#         # get the fields with values for filtering 
-#         filtering_kwargs = self.get_kwargs_for_filtering() 
-
-#         if filtering_kwargs:
-#             # filter the queryset based on 'filtering_kwargs'
-#             queryset = GlassPlates.objects.filter(**filtering_kwargs)
-
-#         return queryset
-
-
-# # print(GlassPlatesList.get_filters())
-
-# # gtest
-# # https://medium.com/@vasjaforutube/django-mongodb-django-rest-framework-mongoengine-ee4eb5857b9a
-# from rest_framework_mongoengine import viewsets
-# from .serializers import GlassPlatesSerializer
-# from plates.models import GlassPlates
-
-# class GlassPlatesViewSet(viewsets.ModelViewSet):
-#     serializer_class = GlassPlatesSerializer
-#     def get_queryset(self):
-#         return GlassPlates.objects.all()
-
-
-
-
 # my custom API build
 # this needs documentation
 # Create your views here.
@@ -373,25 +228,22 @@ def root(request):
             results["next_page"] = request.build_absolute_uri()+"?num_skip="+str(num_skip + num_results)
 
     # find previous page
-    if num_skip+1 - num_results >= 0:
+    if num_skip+1 > 1 :
+        newnum = num_skip - num_results
+        if newnum < 0:
+            newnum = 0
+
         if "num_skip" in request.build_absolute_uri():
-            results["previous_page"] = re.sub(r"num_skip=\d+", "num_skip="+str(num_skip-num_results), request.build_absolute_uri())
+            results["previous_page"] = re.sub(r"num_skip=\d+", "num_skip="+str(newnum), request.build_absolute_uri())
         elif "?" in request.build_absolute_uri():
-            results["previous_page"] = request.build_absolute_uri()+"&num_skip="+str(num_skip-num_results)
+            results["previous_page"] = request.build_absolute_uri()+"&num_skip="+str(newnum)
         else:
-            results["previous_page"] = request.build_absolute_uri()+"?num_skip="+str(num_skip-num_results)
+            results["previous_page"] = request.build_absolute_uri()+"?num_skip="+str(newnum)
 
     results["results"] = plates_out
     
-
-    # print(request)
-
-    # print (request.build_absolute_uri())
-    # print("this one?" + request.build_absolute_uri('?'))
-    # print(request.build_absolute_uri('/')[:-1].strip("/"))
-    # print(request.build_absolute_uri('/').strip("/"))
-    # if plates == None:
-    #     return Response(results, status=status.HTTP_204_NO_CONTENT)
+    if plates == None:
+        return Response(results, status=status.HTTP_404_NOT_FOUND)
             
     return Response(results, status=status.HTTP_200_OK)
 

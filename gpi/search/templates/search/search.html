@@ -20,7 +20,7 @@
                 <h1>Search for Plates</h1>
                 {{repo_emulsion}}
                 
-                <form action="/search/result" method="get" id="platesearch">
+                <form method="get" id="platesearch">
                     <!-- {% csrf_token %} -->
                     <div class="row">
                 
@@ -182,7 +182,7 @@
                     <div class="row">
                         <div class="offset-1">
                             <br/>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-primary" id="searchsubmit">Submit</button>
                         </div>
                     </div>
                 </form>
@@ -191,6 +191,27 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        $("#searchsubmit").click(function(){
+            items = $('form').serializeArray()
+            queryurl = ""
+            for (i=0; i<items.length;i++) {
+
+                if (items[i]["value"] != ""){
+                    queryurl+="&"+items[i]["name"]+"="+items[i]["value"]
+                }
+            }
+            outurl = window.location.href+"result/?"+queryurl.substring(1)
+            window.location.href = outurl;
+        });
+        
+    });
+
+</script>
 
 
 {% endblock %}
