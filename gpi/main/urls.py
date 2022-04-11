@@ -28,5 +28,4 @@ urlpatterns = [
     path('collections/', include('plates.urls')),
     path('search/', include('search.urls')),
     path('api/', include('api.urls')),
-
 ]

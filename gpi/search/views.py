@@ -51,12 +51,13 @@ def index(request):
 def result(request):
 
     apiurl = request.build_absolute_uri().replace("search/result","api")+"&format=json"
-
     r = (requests.get(apiurl)).json()
 
     context = {
         "results" : r["results"] 
     }
+
+    print(r["results"])
 
     if len(r["results"]) == 0:
         context["no_res"] = "No results!"
@@ -70,5 +71,5 @@ def result(request):
         pass
     
     context["num_results"] = r["num_results"]
-
+   
     return render(request, "search/results.html", context)

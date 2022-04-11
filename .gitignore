@@ -1,5 +1,6 @@
 data/
 dasch/
+data.zip
 gpi/*data*.*
 gpi/singledasch*.*
 gpi/main/secrets.py

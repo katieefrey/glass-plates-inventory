@@ -2,6 +2,8 @@ import pymongo
 from django.shortcuts import render
 from main.secrets import connect_string
 
+from django.http import HttpResponse
+
 my_client = pymongo.MongoClient(connect_string)
 dbname = my_client['plates']
 
@@ -32,8 +34,10 @@ def repo(request, repo_id):
 
 def plate(request, repo_id, plate_id):
 
-    plate = list(glass.find({"identifier" : plate_id.replace("%20", " ")}))
+    newid = plate_id.replace("%2520", " ")
 
+    plate = list(glass.find({"identifier" : newid}))
+    
     context = {
         "repo" : repo_id,
         "plate": plate[0],
