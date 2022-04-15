@@ -246,8 +246,8 @@ def root(request):
 
 @api_view(['GET'])
 def archive(request):
-    archives = json.loads(dumps(repos.find({})))
-    return Response(archives)
+    archive = json.loads(dumps(archives.find({})))
+    return Response(archive)
 
 # plates in archive
 @api_view(['GET'])

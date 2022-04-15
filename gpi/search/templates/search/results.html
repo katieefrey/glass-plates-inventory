@@ -71,6 +71,7 @@
                     </div>
                     <div class="col-2">
                         <div id="prevbuttondiv">
+                            <button type="button" id="firstpage" class="btn btn-primary">First</button>
                             <button type="button" id="previouspage" class="btn btn-primary">Previous</button>
                         </div>
                     </div>
@@ -82,6 +83,7 @@
                     <div class="col-3">
                         <div id="nextbuttondiv">
                             <button type="button" id="nextpage" class="btn btn-primary">Next</button>
+                            <button type="button" id="lastpage" class="btn btn-primary">Last</button>
                         </div>
                     </div>
                     <div class="col-2">
@@ -111,6 +113,12 @@
             $("#nextbuttondiv").hide();
         }
 
+        // execute first button
+        $("#firstpage").click(function(){
+            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip=0")    
+            window.location.href = url;
+        });
+
         // execute previous button
         $("#previouspage").click(function(){
             var skipamount = parseInt({{num_skip}}) - parseInt({{num_results}});
@@ -125,6 +133,12 @@
         $("#nextpage").click(function(){
             var skipamount = parseInt({{num_results}}) + parseInt({{num_skip}});
             url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)
+            window.location.href = url;
+        });
+
+        $("#lastpage").click(function(){
+            var skipamount = parseInt({{results_count}}) - parseInt({{num_results}}); 
+            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)  
             window.location.href = url;
         });
 
