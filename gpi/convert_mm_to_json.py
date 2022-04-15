@@ -7,45 +7,9 @@ import json
 import csv
 import datetime
 
+from astropy import units as u
+from astropy.coordinates import SkyCoord
 
-def convertRA(input_value):
-    if input_value and ":" in str(input_value):
-        ra = input_value.split(":")
-        if float(ra[0]) >= 0:
-            output_value = float(ra[0]) + float(ra[1])/60
-            if len(ra) == 3:
-                output_value += float(ra[2])/3600
-        else:
-            output_value = float(ra[0]) - float(ra[1])/60
-            if len(ra) == 3:
-                output_value -= float(ra[2])/3600
-
-        output_value = output_value*15
-    elif input_value:
-        output_value = input_value
-    else:
-        return None
-
-    return round(output_value,4)
-
-
-def convertDEC(input_value):
-    if input_value and ":" in str(input_value):
-        ra = input_value.split(":")
-        if float(ra[0]) >= 0:
-            output_value = float(ra[0]) + float(ra[1])/60
-            if len(ra) == 3:
-                output_value += float(ra[2])/3600
-        else:
-            output_value = float(ra[0]) - float(ra[1])/60
-            if len(ra) == 3:
-                output_value -= float(ra[2])/3600
-    elif input_value:
-        output_value = input_value
-    else:
-        return None
-
-    return round(output_value,4)
 
 def convertData():
 
@@ -65,10 +29,19 @@ def convertData():
             x = datetime.datetime(1900+int(dates[0]), int(dates[1]), int(dates[2]))    
             thedate = x.strftime('%B %d, %Y')
         except:
-            thedate = "No Date"           
+            thedate = ""           
 
-        decira = convertRA(data[1]+":"+data[2]+":00")
-        #decidec = convertDEC(row[4])
+        if "." in data[2]:
+            pieces = data[2].split(".")
+            mins = pieces[0]
+            secs = pieces[1]*60
+            coords = SkyCoord(str(data[1]+":"+pieces[0]+":"+pieces[1]+" 0"), unit=(u.hourangle, u.deg))
+        else:
+            coords = SkyCoord(str(data[1]+":"+data[2]+":00 0"), unit=(u.hourangle, u.deg))
+        
+        decira = coords.ra.deg
+        #decidec = coords.dec.deg
+
 
         if data[3] != "":
             deg = float(data[3])
@@ -84,53 +57,46 @@ def convertData():
 
         newrecord = {
             "identifier" : data[0],
-            "repository": "mmoapc",
-            "plate_info" : {
-                "emulsion" : data[7],
-                #"type" : row[10],
-                #"filter" : row[13],
-                #"band" : row[14],
-                #"width" : {
-                #    "value" : row[15],
-                #    "unit" : "cm"
-                #},
-                #"height" : {
-                #    "value" : row[16],
-                #    "unit" : "cm",
-                #},
-                #"observer" : row[17],
-                "notes" : data[8],
-                #"quality" : row[19],
-                #"availability_note" : availnote,
-                #"digitization_note" : row[21]
-            },
+            "archive": "mmoapc",
             "obs_info" : {
                 "instrument" : "7.5-inch Cooke/Clark refractor",
                 "observatory" : "Maria Mitchell Observatory"      
             },
-            "exposure_info" : [
-                {
-                    "number": 0,
-                    "ra" : data[1]+":"+data[2]+":00",
-                    "ra_deg" : decira,
-                    "dec" : deg,
-                    "dec_deg" : deg,
-                    #"coord_quality" : row[5],
-                    "date" : {
-                        "value" : jd,
-                        "unit" : "JD2000",
-                    },
-                    "calendar_date" : thedate,
-                    #"date_quality" : row[7],
-                    "time" : {
-                        "value" : data[4],
-                        "unit" : "min",
-                    },
-                    #"target" : target,
-                    #"target_type": row[9],
-                }
-            ]          
         }
+
+        plate_info = {}
+        exposure_info = [
+            {
+            "number": 0,
+            "ra" : data[1]+":"+data[2]+":00",
+            "ra_deg" : decira,
+            "dec" : deg,
+            "dec_deg" : deg
+            }
+        ]
+        if data[7] != "":
+            plate_info["emulsion"] = data[7]
+
+        if data[8] != "":
+            plate_info["notes"] = data[8]
+
+        if data[5] != "":
+            exposure_info[0]["calendar_date"] = thedate
+
+        if data[6] != "":
+            exposure_info[0]["jd2000"] = jd
+
+        if data[4] != "":
+            exposure_info[0]["duration"] = {
+                "value" : data[4],
+                "unit" : "min",
+            }
+
+        if plate_info != {}:
+            newrecord["plate_info"] = plate_info
+
+        if exposure_info != {}:
+            newrecord["exposure_info"] = exposure_info   
 
         records.append(newrecord)
 

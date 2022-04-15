@@ -2,6 +2,11 @@ data/
 dasch/
 data.zip
 gpi/*data*.*
+gpi/*.txt
+gpi/*.json
+gpi/*.xls
+gpi/*.csv
+gpi/*convert*.*
 gpi/singledasch*.*
 gpi/main/secrets.py
 gpi/main/secrets_online.py

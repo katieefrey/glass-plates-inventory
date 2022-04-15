@@ -34,6 +34,7 @@ details = collection_name.find({})
 # delete_data = collection_name.delete_one({'medicine_id':'RR000123456'})
 
 #delete_data = collection_name.delete_many({"repository" : "WFPDB"})
-#delete_data = collection_name.delete_many({"repository" : "Hamburg"})
+delete_data = collection_name.delete_many({"repository" : "Hamburg"})
 #delete_data = collection_name.delete_many({"repository" : "DASCH"})
+#delete_data = collection_name.delete_many({"repository" : "mmoapc"})
 

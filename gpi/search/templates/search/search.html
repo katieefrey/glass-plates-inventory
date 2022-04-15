@@ -18,8 +18,7 @@
             <div class="mainstuff">
 
                 <h1>Search for Plates</h1>
-                {{repo_emulsion}}
-                
+                    
                 <form method="get" id="platesearch">
                     <!-- {% csrf_token %} -->
                     <div class="row">
@@ -35,13 +34,13 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="archive" class="col-sm-4 col-form-label">Archive / Collection</label>
+                                    <label for="archive" class="col-sm-4 col-form-label">Archive</label>
                                     <div class="col-sm-7">
                                         <select class="form-select" id="archive" name="archive" aria-label="Default select example">
                                             <option value="all" selected>(select an archive)</option>
-                                            {% for x in repositories %}
+                                            {% for x in archive %}
                                                 <option value="{{x}}">{{x}}</option>
-                                            {% endfor %}           
+                                            {% endfor %}    
                                         </select>
                                     </div>
                                 </div>

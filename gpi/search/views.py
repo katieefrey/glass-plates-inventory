@@ -16,7 +16,7 @@ from main.secrets import connect_string
 my_client = pymongo.MongoClient(connect_string)
 dbname = my_client['plates']
 glass = dbname["glass"]
-repos = dbname["plates_repository"]
+archives = dbname["archives"]
 
 sort_list = [
     {
@@ -27,7 +27,7 @@ sort_list = [
     {
         "name" : "Archive",
         "nickname" :"archive",
-        "field": "repository"
+        "field": "archive"
     },
     {
         "name" : "Right Ascension",
@@ -37,10 +37,10 @@ sort_list = [
 ]
 
 def index(request):
-    archives = repos.distinct("abbr")
+    archive = list(archives.find({"plate_details" : True}).distinct("identifier"))
    
     context = {
-            "repositories": archives,
+            "archive": archive,
             "sort_list" : sort_list,
             "error" : ""
             }
@@ -56,8 +56,13 @@ def result(request):
     context = {
         "results" : r["results"] 
     }
-
-    print(r["results"])
+    
+    try:
+        params = (request.build_absolute_uri()).split("?")
+        query = params[1].split("&")
+        context["query"] = query    
+    except:
+        pass
 
     if len(r["results"]) == 0:
         context["no_res"] = "No results!"

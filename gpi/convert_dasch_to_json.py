@@ -15,7 +15,6 @@ def convertData():
     records = []
     
     fp = open("dasch_data.json", "r", encoding="utf-8")
-
     dasch = json.load(fp)
 
     prev = "a0"
@@ -32,14 +31,15 @@ def convertData():
 
             newrecord = {
                 "identifier" : row[0]+str(row[1]),
-                "repository": "DASCH",
+                "archive": "dasch",
                 "plate_info" : {                    
                     "series" : row[0],
                     "number" : row[1],
-                },"exposure_info" : [
+                },
+                "exposure_info" : [
                     {   
                         "number": row[2],
-                        "time" : {
+                        "duration" : {
                             "value" : row[3],
                             "unit" : "min",
                         },
@@ -47,10 +47,7 @@ def convertData():
                         "ra_deg" : decira,
                         "dec" : row[5],
                         "dec_deg" : decidec,
-                        "date" : {
-                            "value" : row[6],
-                            "unit" : "JD2000",
-                        },
+                        "jd2000" : row[6]
                     },
                 ]
             }
@@ -60,7 +57,7 @@ def convertData():
         else:
             newrecord["exposure_info"].append({
                 "number": row[2],
-                "time" : {
+                "duration" : {
                     "value" : row[3],
                     "unit" : "min",
                 },
@@ -68,10 +65,7 @@ def convertData():
                 "ra_deg" : decira,
                 "dec" : row[5],
                 "dec_deg" : decidec,
-                "date" : {
-                    "value" : row[6],
-                    "unit" : "JD2000",
-                },
+                "jd2000" : row[6]
             })
 
             records = records[:-1]

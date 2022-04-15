@@ -18,7 +18,7 @@
         <div class="newsidebar d-none d-sm-none d-md-block col-lg-3 col-md-3 col-12">
             sidebar
             <br/><br/>
-            <a href="/api/{{plate.repository}}/{{plate.identifier}}">View Plate API entry</a>
+            <a href="/api/{{plate.archive}}/{{plate.identifier}}">View Plate API entry</a>
         </div>
 
         <div class="col-sm-12 col-md-9 offset-md-3" id="content">
@@ -30,13 +30,12 @@
 
                 <table class="table">
                     <tr>
-                        <th>Repository</th>
-                        <td>{{plate.repository}}</td>
+                        <th>Archive</th>
+                        <td>{{plate.archive}}</td>
                     </tr>
                     {% for key,val in plate.plate_info.items %}
                         {% if val != None %}
-                            {{val.value}}
-                            {% if val.value %}
+                              {% if val.value %}
                                 <tr>
                                     <th class="info">{{key|to_space}}</th>
                                     <td>{{val.value}} {{val.unit}}</td>
@@ -81,13 +80,17 @@
                     <tr>
                         {% for key,val in plate.exposure_info.0.items %}
                             {% if val != None %}
-                                {% if key == "ra" %}
-                                    <th class="cap_info">{{key|to_space}}</th>
-                                {% elif val.unit %}
                                 
+                                
+                                {% if key == "ra" or key == "jd2000" %}
+                                    <th class="cap_info">{{key|to_space}}</th>
                                 {% elif '_deg' not in key %}
-                                    <th class="info">{{key|to_space}}</th>
+                                    <th class="info">{{key|to_space}}</th>    
+                                {% elif val.unit %}
+   
                                 {% endif %}
+                            
+
                             {% endif %}
                         {% endfor %}
                     </tr>
@@ -100,7 +103,7 @@
                                 {% elif val.unit %}
 
                                 {% elif '_deg' not in key %}
-                                    <td>{{val}} ? {{val.value}}</td>
+                                    <td>{{val}} {{val.value}}</td>
                                 {% endif %}
                             {% endif %}
                         {% endfor %}

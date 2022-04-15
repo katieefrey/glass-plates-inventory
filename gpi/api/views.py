@@ -16,7 +16,7 @@ from main.secrets import connect_string
 my_client = pymongo.MongoClient(connect_string)
 dbname = my_client['plates']
 glassplates = dbname["glass"]
-repos = dbname["plates_repository"]
+archives = dbname["archives"]
 
 sort_list = [
     {
@@ -27,7 +27,7 @@ sort_list = [
     {
         "name" : "Archive",
         "nickname" :"archive",
-        "field": "repository"
+        "field": "archive"
     },
     {
         "name" : "Right Ascension",
@@ -105,13 +105,13 @@ def root(request):
         query["identifier"] = { "$regex" : identifier, "$options" : "i"}
 
     if archive != "all":
-        query["repository"] = { "$regex" : archive, "$options" : "i"}
+        query["archive"] = { "$regex" : archive, "$options" : "i"}
 
     # if plate identifer and ardchive provided, attempt to go straight there
     if identifier != "" and archive != "all":
         try:
             plate = list(glassplates.find({"identifier" : identifier}))
-            return redirect('/collections/'+plate[0]["repository"]+'/'+plate[0]["identifier"])
+            return redirect('/collections/'+plate[0]["archive"]+'/'+plate[0]["identifier"])
         except:
             pass
 
@@ -121,7 +121,6 @@ def root(request):
             coords = SkyCoord.from_name(obj)
             ra = coords.ra.deg
             dec = coords.dec.deg
-            print(ra)
         except:
             results = {
                 "total_results" : 0,
@@ -176,6 +175,7 @@ def root(request):
             {"plate_info.digitization_note" : { "$regex" : text, "$options" : "i"}},
             {"plate_info.quality" : { "$regex" : text, "$options" : "i"}},
             {"plate_info.notes" : { "$regex" : text, "$options" : "i"}},
+            {"plate_info.condition" : { "$regex" : text, "$options" : "i"}},
             {"plate_info.observer" : { "$regex" : text, "$options" : "i"}},
             {"obs_info.instrument" : { "$regex" : text, "$options" : "i"}},
             {"obs_info.observatory" : { "$regex" : text, "$options" : "i"}},
@@ -264,7 +264,7 @@ def PlateArchive(request, archive):
         num_results = 50
 
     query = {}
-    query["repository"] = { "$regex" : archive, "$options" : "i"}
+    query["archive"] = { "$regex" : archive, "$options" : "i"}
 
     plates = (
             (
@@ -297,7 +297,7 @@ def PlateArchive(request, archive):
 def GlassPlate(request, archive, identifier):
 
     query = {}
-    query["repository"] = { "$regex" : archive, "$options" : "i"}
+    query["archive"] = { "$regex" : archive, "$options" : "i"}
     query["identifier"] = { "$regex" : '^'+identifier+'$', "$options" : "i"}
 
     plates = json.loads(dumps(glassplates.find_one(query)))
