@@ -4,6 +4,9 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='mainindex'),
+    path('docs', views.docs, name='docs'),
+    path('docs/nosql', views.nosql, name='nosql'),
+    path('docs/addarchive', views.addarchive, name='addarchive'),
     # path('about', views.about, name='about'),
 
     #account related

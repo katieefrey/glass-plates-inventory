@@ -14,6 +14,23 @@ from users.models import CustomUser
 def index(request):
     return render(request, "website/index.html")
 
+# site documentation home
+def docs(request):
+    context = {
+        }
+    return render(request, "website/docs.html", context)
+
+# noSQL  primer
+def nosql(request):
+    context = {
+        }
+    return render(request, "website/nosql.html", context)
+
+# how to add an archive
+def addarchive(request):
+    context = {
+        }
+    return render(request, "website/addarchive.html", context)
 
 #send user to login form
 def login_form(request):
