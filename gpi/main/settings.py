@@ -50,14 +50,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'rest_framework',
-    'rest_framework_mongoengine',
-    'django_filters',
+    # 'rest_framework_mongoengine',
+    # 'django_filters',
     # Local
     'website.apps.WebsiteConfig',
     'plates.apps.PlatesConfig',
     'search.apps.SearchConfig',
     'users.apps.UsersConfig',
-    'api.apps.ApiConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

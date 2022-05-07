@@ -31,7 +31,7 @@ def convertData():
 
             newrecord = {
                 "identifier" : row[0]+str(row[1]),
-                "archive": "dasch",
+                "archive": "hco",
                 "plate_info" : {                    
                     "series" : row[0],
                     "number" : row[1],

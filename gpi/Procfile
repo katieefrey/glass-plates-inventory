@@ -1,0 +1,4 @@
+release: python manage.py migrate
+web: gunicorn main.wsgi --log-file -
+
+//web: gunicorn -w 1 -k uvicorn.workers.UvicornWorker main.asgi:app  --log-file -

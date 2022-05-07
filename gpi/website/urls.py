@@ -5,13 +5,10 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='mainindex'),
-    # path('index3', views.index3, name='mainindex3'),
-    # path('index4', views.index4, name='mainindex4'),
-    # path('apiland', views.apiland, name='apiland'),
-    path('docs/', RedirectView.as_view(url='/docs')), 
-    path('guides/', views.docs, name='docs'),
-    path('about', views.about, name='about'),
-    path('contact', views.contact, name='contact'),
+    path('api/', views.api, name='api'),
+    path('guides/', views.guides, name='guides'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
 
     #account related
     # path("login", views.login_form, name="login_form"),

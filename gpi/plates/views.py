@@ -12,7 +12,7 @@ archives = dbname["archives"]
 
 def index(request):
 
-    archivedetails = archives.find({})
+    archivedetails = archives.find({}).sort([("identifier",pymongo.ASCENDING)]).collation({"locale": "en_US", "numericOrdering": True})
 
     context = {
             "details" : archivedetails,

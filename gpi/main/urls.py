@@ -27,5 +27,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('archives/', include('plates.urls')),
     path('search/', include('search.urls')),
-    path('api/', include('api.urls')),
 ]

@@ -49,11 +49,9 @@ def index(request):
 
 
 def result(request):
-
-    apiurl = request.build_absolute_uri().replace("search/result","api/plates")
+    # apiurl = request.build_absolute_uri().replace("search/result","api/plates")
+    apiurl = "https://glassplatesapi.herokuapp.com"+ request.get_full_path().replace("/search/result","")
     r = (requests.get(apiurl)).json()
-
-    print(apiurl)
 
     context = {
         "results" : r["results"] 
