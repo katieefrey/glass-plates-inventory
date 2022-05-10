@@ -33,7 +33,14 @@
                     </tr>
                     {% for key,val in plate.plate_info.items %}
                         {% if val != None %}
-                              {% if val.value %}
+
+                                {% if '_image' in key %}
+                                <tr>
+                                    <th class="info">{{key|to_space}}</th>
+                                    <td><a href="{% static val %}">{{val}}</a></td>
+                                </tr>
+
+                                {% elif val.value %}
                                 <tr>
                                     <th class="info">{{key|to_space}}</th>
                                     <td>{{val.value}} {{val.unit}}</td>
